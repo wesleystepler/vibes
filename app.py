@@ -1,7 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, request
 from getpass import getpass
 from mysql.connector import connect, Error
-from connect_db import add_friend
+from connect_db import add_friend, select_all_friends
 
 app = Flask(__name__)
 
@@ -16,5 +16,5 @@ def potd5():
         #print(friend_year, type(friend_year))
 
         add_friend(friend_name, friend_major, friend_year)
-        
-    return render_template("simpleform.html")
+    data = select_all_friends()    
+    return render_template("simpleform.html", data=data)

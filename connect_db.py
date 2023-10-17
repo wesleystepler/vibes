@@ -29,7 +29,7 @@ def add_friend(friend_name, friend_major, friend_year):
     except Error as e:
         print(e)
     
-def select_friend():
+def select_all_friends():
     query = """SELECT * FROM friends"""
     #print(query)
     try:
@@ -42,7 +42,6 @@ def select_friend():
             with connection.cursor() as cursor:
                 cursor.execute(query)
                 result = cursor.fetchall()
-                for row in result:
-                    print(row)
+                return result
     except Error as e:
         print(e)
