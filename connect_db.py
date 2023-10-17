@@ -46,5 +46,3 @@ def select_friend():
                     print(row)
     except Error as e:
         print(e)
-
-select_friend()
