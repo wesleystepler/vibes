@@ -4,7 +4,7 @@ To install Flask:
    it's good practice to have all the required libraries for a project within
    a virtual environment specific to that project, so your local machine
    doesn't end up with a whole mess of libraries from using pip install
-   for a million different projects.
+   for a million different projects. 
     a. Run the command: python -m venv <virtual-environment-name>
     b. To activate the virtual environment in the GitBash shell, run 
        the command: source <virtual-environment-name>/Scripts/activate.
