@@ -45,3 +45,23 @@ def select_all_friends():
                 return result
     except Error as e:
         print(e)
+
+def delete_friend():
+    query = """DELETE FROM friends WHERE name = '%s'"""
+    #print(query)
+    try:
+        with connect(
+            host="localhost",
+            user="wesley", #input("Enter username: "),
+            password="password", #getpass("Enter password: "),
+            database = "potd_5",
+        ) as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query)
+                result = cursor.fetchall()
+                return result
+    except Error as e:
+        print(e)
+
+friends = select_all_friends()
+print(friends)

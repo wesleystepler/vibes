@@ -8,13 +8,23 @@ app = Flask(__name__)
 @app.route('/', methods=["POST", "GET"])
 def potd5():
     if request.method == "POST":
-        friend_name = request.form["friendname"]
-        friend_major = request.form["major"]
-        friend_year = int(request.form["year"])
-        #print(friend_name, type(friend_name))
-        #print(friend_major, type(friend_major))
-        #print(friend_year, type(friend_year))
+        print(request.form)
+        for tup in request.form:
+            if "Add friend" in request.form[tup]:
+                print(tup)
+                friend_name = request.form["friendname"]
+                friend_major = request.form["major"]
+                friend_year = int(request.form["year"])
+                add_friend(friend_name, friend_major, friend_year)
+                break
 
-        add_friend(friend_name, friend_major, friend_year)
-    data = select_all_friends()    
+            elif "Update" in request.form[tup]:
+                print(tup)
+
+            elif "Delete" in request.form[tup]:
+                print(tup)
+                
+    data = select_all_friends()
+    #for i in data:
+    #    print(i)    
     return render_template("simpleform.html", data=data)

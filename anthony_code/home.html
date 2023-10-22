@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Friend Book</title>
+</head>
+<body>
+    <h1>Friend Book</h1>
+    </form>
+    <form action="/add_friend" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="major">Major:</label>
+        <input type="text" id="major" name="major" required><br>
+
+        <label for="year">Year:</label>
+        <input type="text" id="year" name="year" required><br>
+
+        <input type="submit" value="Add">
+    </form>
+    <h2>Edit Friend</h2>
+
+    <form action="/update_friend" method="POST">
+
+        <label for="edit-name">Name:</label>
+
+        <input type="text" id="edit-name" name="name" required><br>
+
+        <label for="edit-major">Major:</label>
+
+        <input type="text" id="edit-major" name="major" required><br>
+
+        <label for="edit-year">Year:</label>
+
+        <input type="text" id="edit-year" name="year" required><br>
+
+        <input type="submit" value="Save">
+
+    </form>
+    <h2>Friends</h2>
+    <ul>
+        {% for friend in friends %}
+        <li>{{ friend.name }} ({{ friend.major }}, {{ friend.year }})</li>
+          
+          <form action="/delete_friend" method="POST">
+          <input type="hidden" name="name" value="{{ friend.name }}">
+
+          <input type="submit" value="Delete">
+          </form>
+          
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
