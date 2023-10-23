@@ -102,3 +102,29 @@ create_replies_table = """
 
 
 ### ~~~~~~~~~~~~~~~~~~~~~~~~ DATA FILTERING QUERIES ~~~~~~~~~~~~~~~~~~~~~~~~ ###
+
+# Display a User's home page
+
+# Display a User's friends
+def display_friends_query(user):
+    data = (user)
+    return """
+        SELECT * FROM Is_Friends_With
+        WHERE username1 = '%s'
+    """ % data
+
+# Display a specific User's posts
+def display_user_posts_query(user):
+    data = (user)
+    return """
+        SELECT * From Post
+        WHERE user_name = '%s'
+    """ % data
+
+# Display a specific category of posts
+def display_category_query(category):
+    data = category
+    return """
+        SELECT * FROM Post
+        WHERE category = '%s'
+    """ % data
