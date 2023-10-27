@@ -1,19 +1,22 @@
 from flask import Flask, render_template, redirect, url_for, session, request
+from datetime import timedelta
 
 app = Flask(__name__)
 app.secret_key = "hello"
+#Store session data for one week
+app.permanent_session_lifetime = timedelta(days=7)
 
-@app.route('/')
-def hello_world():
-    return render_template('home.html')
-
-@app.route('/login', methods=["POST", "GET"])
+@app.route('/', methods=["POST", "GET"])
 def login():
     if request.method == "POST":
+        session.permanent = True
         user = request.form["nm"]
         session["user"] = user
         return redirect(url_for("user"))
-    return render_template('login.html')
+    else:
+        if "user" in session:
+            return redirect(url_for("user"))
+        return render_template('home.html')
 
 @app.route('/signup')
 def signup():
@@ -26,3 +29,9 @@ def user():
        return f"<h1>{user}</h1>" 
    else:
        return redirect(url_for("login"))
+   
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("login"))
+
