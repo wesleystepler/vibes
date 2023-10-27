@@ -1,9 +1,25 @@
 <html>
 <h1>Welcome to Vibes!</h1>
-<a href="/login">
-    <button>Login</button>
-</a>
 
+<h2>Login</h2>
+<form name="mainForm" action="" method="post">   
+    <div class="row mb-3 mx-3">
+      Username:
+      <input type="text" class="form-control" name="usr" required />        
+    </div>  
+    <div class="row mb-3 mx-3">
+      Password:
+      <input type="text" class="form-control" name="pwd" required />        
+    </div>
+
+    <div class="row mb-3 mx-3">
+        <input type="submit" value="Login!" name="actionBtn" 
+                class="btn btn-primary" title="Login to your Vibes account." />
+    </div>
+    
+</form>
+
+<h3>Don't Have an Account? Sign Up Here!</h3>
 <a href="/signup">
     <button>Sign Up</button>
 </a>
