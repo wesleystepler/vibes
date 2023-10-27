@@ -41,7 +41,7 @@ CREATE TABLE Sends_Request_To (
     FOREIGN KEY (user_name1) REFERENCES Users(user_name) ON DELETE CASCADE,
     FOREIGN KEY (user_name2) REFERENCES Users(user_name) ON DELETE CASCADE,
     PRIMARY KEY (user_name1, user_name2),
-    CHECK (user_name1 <> user_name2)
+    CHECK (user_name1 <> user_name2) -- Advanced SQL CHECK
 );
 
 CREATE TABLE Likes_Comment (
@@ -93,6 +93,12 @@ VALUES('kathleenmead', 1);
 INSERT INTO Sends_Request_To
 VALUES('anthonyferguson', 'paulwesleystepler');
 
+INSERT INTO Is_Friends_With
+VALUES('paulwesleystepler', 'kathleenmead')
+
+INSERT INTO Is_Friends_With
+VALUES('kathleenmead', 'paulwesleystepler')
+
 INSERT INTO Likes_Comment
 VALUES('anthonyferguson', 1);
 
@@ -109,9 +115,6 @@ VALUES ('%s', '%s', '%s', '%s', '%s');
 
 INSERT INTO Comment post_id, user_name, comment_text
 VALUES ('%s', '%s', '%s');
-
-INSERT INTO Post_Comments (post_id, comment_id)
-VALUES ('%s', '%s');
 
 INSERT INTO Is_Friends_With (user_name1, user_name2)
 VALUES ('%s', '%s');
@@ -138,9 +141,6 @@ WHERE post_id = '%s';
 
 DELETE FROM Comment
 WHERE comment_id = '%s';
-
-DELETE FROM Post_Comments
-WHERE post_id = '%s';
 
 DELETE FROM Is_Friends_With
 WHERE user_name1 = '%s';
@@ -173,7 +173,7 @@ SELECT * FROM Post WHERE user_name = '%s'
 SELECT user_name2user_name2 FROM Is_Friends_With WHERE user__name1 = '%s';
 
 --Display a specific User's posts
-SELECT * From Post WHERE user_name = '%s'; '%s'
+SELECT * From Post WHERE user_name = '%s';
 
 --Display a specific category of posts
 SELECT * FROM Post WHERE category = '%s';
@@ -189,15 +189,9 @@ SELECT * FROM Comments WHERE user_name = '%s';
 
 -- ### ~~~~~~~~~~~~~~~~~~~~~~~~ ADVANCED SQL ~~~~~~~~~~~~~~~~~~~~~~~~ ###
 DELIMITER $$
-CREATE TRIGGER updatePostLikes
-AFTER INSERT ON Likes_Post
-    FOR EACH ROW IN Post
-        BEGIN
-            SET new.likes = likes+1;
-        END
+CREATE PROCEDURE updateLikes(IN Liked_Post_ID INT)
+UPDATE Post
+SET Post.likes = Post.likes + 1 
+WHERE Post.post_id = Liked_Post_ID;
 $$
 DELIMITER ;
-
-
-
-
