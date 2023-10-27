@@ -4,7 +4,7 @@
 
 
 ### ~~~~~~~~~~~~~~~~~~~~~~~~ REMOVE FROM TABLE QUERIES ~~~~~~~~~~~~~~~~~~~~~~~~ ###
-
+#removing like, removing comment, delete user?, removing follow/friend
 
 
 

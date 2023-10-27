@@ -36,6 +36,18 @@ def get_all_users():
         return result
     
 
+def describe_table():
+    query = """DESC Users"""
+    with connection.cursor(buffered=True) as cursor:
+        cursor.execute(query)
+        return cursor.fetchall()
+    
+print(describe_table())
+
+
+
+    
+
 
     
 
