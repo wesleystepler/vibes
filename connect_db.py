@@ -41,6 +41,17 @@ def describe_table():
     with connection.cursor(buffered=True) as cursor:
         cursor.execute(query)
         return cursor.fetchall()
+
+def get_user(user):
+    query = """
+    SELECT * FROM Users WHERE user_name = '%s'
+    """ % user
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
+
+
     
 print(describe_table())
 
