@@ -16,14 +16,13 @@ except Error as e:
 
 
 def add_new_user(user, pwd, first_name, last_name, email):
-    record = (user, pwd, first_name, last_name, email)
     query = """
-        INSERT into Users 
+        INSERT into Users (user_name, pwd, first_name, last_name, email)
         VALUES ('%s', '%s', '%s', '%s', '%s')
-        """ % record
+        """
 
     with connection.cursor() as cursor:
-        cursor.execute(query)
+        cursor.execute(query, (user, pwd, first_name, last_name, email))
         connection.commit()
 
 def get_all_users():
@@ -50,6 +49,15 @@ def get_user(user):
         cursor.execute(query)
         result = cursor.fetchall()
         return result
+def update_password():
+    query = """
+    alter table Users modfiy first_name varchar(255) not null algorithm=copy;
+    """
+    
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        connection.commit()
+    
 
 
     

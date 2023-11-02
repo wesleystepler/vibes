@@ -16,9 +16,8 @@ bcrypt = Bcrypt(app)
 
 @app.route('/', methods=["POST", "GET"])
 def login():
-
     # SECURITY UPDATES NEEDED, ESPECIALLY FOR PASSWORD STORING AND CHECKING
-
+    #connect_db.update_password()
     # Get the username and password from the front end.
     if request.method == "POST":
         session.permanent = True
@@ -52,7 +51,6 @@ def signup():
         first_name = request.form["first_name"]
         last_name = request.form["last_name"]
 
-
         if connect_db.get_user(user):
             error_message = "Username already exists, Please use a different username."
             return render_template("signup.html", error_message=error_message)
@@ -60,6 +58,7 @@ def signup():
         session["user"] = user
         email = request.form["email"]
 
+        print(user, password, first_name, last_name, email)
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
         # Execute the SQL Query to add a new user with the above arguments
