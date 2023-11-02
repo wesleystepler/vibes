@@ -18,7 +18,7 @@ except Error as e:
 def add_new_user(user, pwd, first_name, last_name, email):
     query = """
         INSERT into Users (user_name, pwd, first_name, last_name, email)
-        VALUES ('%s', '%s', '%s', '%s', '%s')
+        VALUES (%s, %s, %s, %s, %s)
         """
 
     with connection.cursor() as cursor:
@@ -43,20 +43,29 @@ def describe_table():
 
 def get_user(user):
     query = """
-    SELECT * FROM Users WHERE user_name = '%s'
-    """ % user
+    SELECT * FROM Users WHERE user_name = %s
+    """
     with connection.cursor() as cursor:
-        cursor.execute(query)
+        cursor.execute(query, (user,))
         result = cursor.fetchall()
         return result
-def update_password():
-    query = """
-    alter table Users modfiy first_name varchar(255) not null algorithm=copy;
-    """
     
+def get_password(user):
+    query = """
+    SELECT pwd FROM Users WHERE user_name = %s
+    """
     with connection.cursor() as cursor:
-        cursor.execute(query)
-        connection.commit()
+        cursor.execute(query, (user,))
+        result = cursor.fetchall()
+        return result
+# def update_password():
+#     query = """
+#     alter table Users modfiy first_name varchar(255) not null algorithm=copy;
+#     """
+    
+#     with connection.cursor() as cursor:
+#         cursor.execute(query)
+#         connection.commit()
     
 
 
@@ -66,7 +75,6 @@ print(describe_table())
 
 
     
-
 
     
 

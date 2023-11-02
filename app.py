@@ -27,11 +27,14 @@ def login():
         # Make sure this username and password exist together in some user instance.
         # If not, redirect user to bad login page, which will ask either for different credentials
         # or for the user to create a new account.
-        validate_request = connect_db.get_all_users()
-        for user_creds in validate_request:
-            if user_creds[0] == user and bcrypt.check_password_hash(user_creds[1], password):
+        if connect_db.get_user(user):
+            user_pwd = connect_db.get_password(user)
+            if bcrypt.check_password_hash(user_pwd[0][0], password):
                 session["user"] = user
                 return redirect(url_for("user"))
+            else:
+                error_message = "Invalid username or password."
+                return render_template("home.html", error_message=error_message)
         error_message = "Invalid username or password."
         return render_template("home.html", error_message=error_message)
     
@@ -57,8 +60,6 @@ def signup():
 
         session["user"] = user
         email = request.form["email"]
-
-        print(user, password, first_name, last_name, email)
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
         # Execute the SQL Query to add a new user with the above arguments
