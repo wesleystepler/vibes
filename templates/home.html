@@ -23,12 +23,17 @@
     </thead>
     <form name="updateForm" action="" method="post"> 
     {% for i in data %}
+        <div>
         <tr>
             <td>@{{i[5]}} Posted a Vibe About {{i[1]}} at {{i[2]}}:</td>
         </tr>
         <tr>
             <td>{{i[4]}}</td>
         </tr>
+        <tr>
+            <td>{{i[3]}} Likes</td>
+        </tr>
+        </div>
         
     </form>
     {% endfor %}
