@@ -14,10 +14,36 @@
     </div>
 
     <div class="row mb-3 mx-3">
-      <input type="submit" value="Create Post!" name="actionBtn" class="btn btn-primary"
+      <input type="submit" value="Create Post" name="actionBtn" class="btn btn-primary"
         title="Create a New Post." />
     </div>
   </form>
+
+  <h3>Let's See What the Vibes Are...</h3>
+  <div class="row justify-content-center">  
+    <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
+    <thead>
+    <tr style="background-color:blue">
+        <th width="75%">       
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <form name="updateForm" action="" method="post"> 
+    {% for i in data %}
+        <tr>
+            <td>@{{i[5]}} Posted a Vibe About {{i[1]}} at {{i[2]}}:</td>
+        </tr>
+        <tr>
+            <td>{{i[4]}}</td>
+        </tr>
+        
+    </form>
+    {% endfor %}
+    </table>
+</div>
+
+
 
 </body>
 

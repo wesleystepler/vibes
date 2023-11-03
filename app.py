@@ -75,12 +75,18 @@ def signup():
 # def bad_login():
 #     return render_template("bad_login.html")
 
-@app.route("/home")
+@app.route("/home", methods=["POST", "GET"])
 def user():
    # Very basic user page. This will eventually be the user's home page.
    if "user" in session:
        user = session["user"]
-       return render_template("home.html", user = user)
+
+       if request.method == "POST":
+           if "Create Post" in request.form:
+               print()
+
+       all_posts = connect_db.get_user_homepage(user)
+       return render_template("home.html", user = user, data = all_posts)
    else:
        return redirect(url_for("login"))
    

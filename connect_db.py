@@ -69,8 +69,14 @@ def get_password(user):
     
 
 
-    
-print(describe_table())
+### ~~~~~~~~~~~~~~~~~~~~~~~~ DATA FILTERING Functions ~~~~~~~~~~~~~~~~~~~~~~~~ ###
+def get_user_homepage(user):
+    query = queries.display_homepage_query(user)
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
+
 
 
 
