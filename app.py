@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, session, request
 from flask_bcrypt import Bcrypt
-from datetime import timedelta
+from datetime import timedelta, datetime
 import connect_db
 
 
@@ -89,6 +89,22 @@ def user():
        return render_template("home.html", user = user, data = all_posts)
    else:
        return redirect(url_for("login"))
+   
+
+@app.route("/create_post", methods=["POST", "GET"])
+def create_post():
+    if "user" in session:
+        user = session["user"]
+    if request.method == "POST":
+        category = request.form["category"]
+        content = request.form["content"]
+        time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        likes = 0
+        connect_db.create_new_post(category, time, likes, content, user)
+        return redirect(url_for("user"))
+
+    return render_template("create_post.html")
+
    
 @app.route("/logout")
 def logout():

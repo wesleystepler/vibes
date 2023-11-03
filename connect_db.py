@@ -69,6 +69,16 @@ def get_password(user):
     
 
 
+### ~~~~~~~~~~~~~~~~~~~~~~~~ DATA ADDING Functions ~~~~~~~~~~~~~~~~~~~~~~~~ ###
+def create_new_post(category, time_posted, likes, post_text, user_name):
+    query = """INSERT INTO Post (category, time_posted, likes, post_text, user_name)
+    VALUES(%s, %s, %s, %s, %s)"""
+    with connection.cursor() as cursor:
+        cursor.execute(query, (category, time_posted, likes, post_text, user_name))
+        connection.commit()
+
+
+
 ### ~~~~~~~~~~~~~~~~~~~~~~~~ DATA FILTERING Functions ~~~~~~~~~~~~~~~~~~~~~~~~ ###
 def get_user_homepage(user):
     query = queries.display_homepage_query(user)
