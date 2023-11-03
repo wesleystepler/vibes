@@ -34,15 +34,15 @@ def login():
                 return redirect(url_for("user"))
             else:
                 error_message = "Invalid username or password."
-                return render_template("home.html", error_message=error_message)
+                return render_template("login.html", error_message=error_message)
         error_message = "Invalid username or password."
-        return render_template("home.html", error_message=error_message)
+        return render_template("login.html", error_message=error_message)
     
     else:
         # If there are saved login credentials, just go to the user's page.
         if "user" in session:
             return redirect(url_for("user"))
-        return render_template('home.html')
+        return render_template('login.html')
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
@@ -75,12 +75,12 @@ def signup():
 # def bad_login():
 #     return render_template("bad_login.html")
 
-@app.route("/user")
+@app.route("/home")
 def user():
    # Very basic user page. This will eventually be the user's home page.
    if "user" in session:
        user = session["user"]
-       return f"<h1>{user}</h1>" 
+       return render_template("home.html", user = user)
    else:
        return redirect(url_for("login"))
    
