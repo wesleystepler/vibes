@@ -12,8 +12,10 @@
 
 # Display a User's home page
 def display_homepage_query(user):
+    # We will return to this later and set it so that only a user's
+    # friend's posts are selected here
     return """
-    SELECT * FROM 
+    SELECT * FROM Post
     """
 
 # Display a User's friends
