@@ -23,7 +23,7 @@ def display_friends_query(user):
     data = (user)
     return """
         SELECT * FROM Is_Friends_With
-        WHERE username1 = '%s'
+        WHERE user_name1 = '%s'
     """ % data
 
 # Display a specific User's posts
