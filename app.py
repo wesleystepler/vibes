@@ -91,6 +91,33 @@ def user():
        return redirect(url_for("login"))
    
 
+@app.route("/search", methods=["POST", "GET"])
+def search():
+    return render_template("search.html")
+
+
+@app.route("/profile", methods=["GET", "POST"])
+def profile():
+    if "user" in session:
+        user = session["user"]
+
+        user_posts = connect_db.get_user_posts(user)
+        return render_template("profile.html", user = user, data = user_posts)
+    return render_template("profile.html")
+
+
+@app.route("/friends", methods=["POST", "GET"])
+def friends():
+    if "user" in session:
+        user = session["user"]
+        num_friends = connect_db.get_user_friends(user)
+        return render_template("friends.html", data = num_friends, num = len(num_friends))
+    
+@app.route("/requests", methods=["GET", "POST"])
+def requests():
+    return render_template("requests.html")
+   
+
 @app.route("/create_post", methods=["POST", "GET"])
 def create_post():
     if "user" in session:

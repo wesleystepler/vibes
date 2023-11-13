@@ -86,6 +86,20 @@ def get_user_homepage(user):
         cursor.execute(query)
         result = cursor.fetchall()
         return result
+    
+def get_user_posts(user):
+    query = queries.display_user_posts_query(user)
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
+    
+def get_user_friends(user):
+    query = queries.display_friends_query(user)
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
 
 
 

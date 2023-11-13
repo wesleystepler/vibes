@@ -1,0 +1,48 @@
+{% extends "navbar.html" %}
+
+{% block content %}
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+    <h1>Hey there, {{user}}</h1>
+
+    <a href="/friends" class="row mb-3 mx-3">
+        <button class="btn btn-primary">View Friends</button>
+    </a>
+
+    <a href="/requests" class="row mb-3 mx-3">
+        <button class="btn btn-primary">View Requests</button>
+    </a>
+    
+    <h2>Your Vibes</h2>
+    <div class="row justify-content-center">  
+      <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
+      <thead>
+      <tr style="background-color:blue">
+          <th width="75%">       
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+      </tr>
+      </thead>
+      <form name="updateForm" action="" method="post"> 
+      {% for i in data %}
+          <div>
+          <tr>
+              <td>@{{i[5]}} Posted a Vibe About {{i[1]}} at {{i[2]}}:</td>
+          </tr>
+          <tr>
+              <td>{{i[4]}}</td>
+          </tr>
+          <tr>
+              <td>{{i[3]}} Likes</td>
+          </tr>
+          </div>
+          
+      </form>
+      {% endfor %}
+      </table>
+  </div>
+</html>
+
+{% endblock %}
