@@ -95,6 +95,13 @@ def user():
 def search():
     return render_template("search.html")
 
+@app.route("/users", methods=["GET", "POST"])
+def users():
+    if "user" in session:
+        user = session["user"]
+        all_users = connect_db.get_all_users()
+        return render_template("users.html", user = user, data = all_users)
+
 
 @app.route("/profile", methods=["GET", "POST"])
 def profile():

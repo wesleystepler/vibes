@@ -118,6 +118,13 @@ def get_user_friends(user):
         cursor.execute(query, (user,))
         result = cursor.fetchall()
         return result
+    
+def get_all_users():
+    query = queries.display_all_users_query()
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
 
 
 def get_user_likepost(user, post_id):
