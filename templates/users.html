@@ -1,0 +1,32 @@
+{% extends "navbar.html" %}
+
+{% block content %}
+<html>
+    <h1>All Vibes Users</h1>
+    <div class="row justify-content-center">  
+        <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
+        <thead>
+        <tr style="background-color:blue">
+            <th width="75%">       
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <form name="updateForm" action="" method="post"> 
+        {% for i in data %}
+            <div>
+            <tr>
+                <td>{{i[1]}} {{i[2]}} - {{i[0]}}</td>
+            </tr>
+            
+        </form>
+        {% endfor %}
+        </table>
+    </div>
+
+    
+</html>
+
+
+
+{% endblock %}

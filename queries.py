@@ -18,11 +18,17 @@ def display_homepage_query(user):
     SELECT * FROM Post
     """
 
+# Display All User's
+def display_all_users_query():
+    return """
+    SELECT user_name, first_name, last_name FROM Users
+    """
+
 # Display a User's friends
 def display_friends_query(user):
     data = (user)
     return """
-        SELECT * FROM Is_Friends_With
+        SELECT user_name2 FROM Is_Friends_With
         WHERE user_name1 = '%s'
     """ % data
 
