@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, session, request
+from flask import Flask, render_template, redirect, url_for, session, request, jsonify
 from flask_bcrypt import Bcrypt
 from datetime import timedelta, datetime
 import connect_db
@@ -131,6 +131,33 @@ def create_post():
         return redirect(url_for("user"))
 
     return render_template("create_post.html")
+
+#to interact with the javascript
+@app.route("/like_post", methods=["POST"])
+def like_post():
+    connect_db.drop_procedure()
+    user = session["user"]
+    post_id = request.json["post_id"]
+    result = connect_db.get_user_likepost(user, post_id)
+    
+    # get total post likes
+    homepage = connect_db.get_user_homepage(user)
+    print(homepage)
+    
+    
+    result = connect_db.get_user_likepost(user, post_id)
+    print(result)   
+    
+    if len(result) == 0:
+        connect_db.add_like(user, post_id)
+        connect_db.increment_likes(post_id)
+        return jsonify({"result": "liked"})
+    else:
+        connect_db.remove_like(user, post_id)
+        connect_db.decrement_likes(post_id)
+        return jsonify({"result": "unliked"})
+    
+
 
    
 @app.route("/logout")

@@ -195,3 +195,11 @@ SET Post.likes = Post.likes + 1
 WHERE Post.post_id = Liked_Post_ID;
 $$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE updateLikes(IN Liked_Post_ID INT)
+UPDATE Post
+SET Post.likes = Post.likes + 1 
+WHERE Post.post_id = Liked_Post_ID;
+$$
+DELIMITER ;
