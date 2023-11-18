@@ -2,6 +2,9 @@
 
 {% block content %}
 <html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    </head>
     <h1>All Vibes Users</h1>
     <div class="row justify-content-center">  
         <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
@@ -12,16 +15,33 @@
             <th>&nbsp;</th>
         </tr>
         </thead>
-        <form name="updateForm" action="" method="post"> 
+        <form name="updateForm" action="" method="post" onload = "sendData()"> 
         {% for i in data %}
-            <div>
             <tr>
                 <td>{{i[1]}} {{i[2]}} - @{{i[0]}}</td>
-                <td><input type="submit" value="Add Friend" class="btn btn-secondary" /></td>
+                <input type="hidden" value={{i[0]}} name="username" id="username">
+                <td><input type="submit" value="Add Friend" name="actionBtn" class="btn btn-secondary" /></td>
+                <script>
+                    function sendData() { 
+                        var value = document.getElementById('username').value; 
+                        $.ajax({ 
+                            url: '/users', 
+                            type: 'POST', 
+                            data: { 'data': value }, 
+                            success: function(response) { 
+                                document.getElementById('output').innerHTML = response; 
+                            }, 
+                            error: function(error) { 
+                                console.log(error); 
+                            } 
+                        }); 
+                    }
+                    
+                </script>
             </tr>
             
-        </form>
         {% endfor %}
+        </form>
         </table>
     </div>
 
