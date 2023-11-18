@@ -11,7 +11,7 @@
 ### ~~~~~~~~~~~~~~~~~~~~~~~~ DATA FILTERING QUERIES ~~~~~~~~~~~~~~~~~~~~~~~~ ###
 
 # Display a User's home page
-def display_homepage_query(user):
+def display_homepage_query():
     # We will return to this later and set it so that only a user's
     # friend's posts are selected here
     return """
@@ -19,39 +19,43 @@ def display_homepage_query(user):
     """
 
 # Display a User's friends
-def display_friends_query(user):
-    data = (user)
+def display_friends_query():
     return """
         SELECT * FROM Is_Friends_With
-        WHERE user_name1 = '%s'
-    """ % data
+        WHERE user_name1 = %s
+    """ 
 
 # Display a specific User's posts
-def display_user_posts_query(user):
-    data = (user)
+def display_user_posts_query():
     return """
         SELECT * From Post
-        WHERE user_name = '%s'
-    """ % data
+        WHERE user_name = %s
+    """ 
 
 # Display a specific category of posts
-def display_category_query(category):
-    data = category
+def display_category_query():
     return """
         SELECT * FROM Post
-        WHERE category = '%s'
-    """ % data
+        WHERE category = %s
+    """ 
 
 #Display a user's likes
-def display_likes_query(user):
+def display_likes_query():
     return """
         SELECT * FROM Likes
-        WHERE user_name = '%s'
-    """ % user
+        WHERE user_name = %s
+    """
 
 #Display a user's comments
-def display_comments_query(user):
+def display_comments_query():
     return """
     SELECT * FROM Comments
-    WHERE user_name = '%s'
-    """ % user
+    WHERE user_name = %s
+    """
+
+def like_post_query():
+    return """
+    SELECT * FROM Likes_Post
+    WHERE user_name = %s AND post_id = %s
+    """
+    

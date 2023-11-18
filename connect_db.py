@@ -77,33 +77,87 @@ def create_new_post(category, time_posted, likes, post_text, user_name):
         cursor.execute(query, (category, time_posted, likes, post_text, user_name))
         connection.commit()
 
+def add_like(user, post_id):
+    query = """
+    INSERT INTO Likes_Post (user_name, post_id)
+    VALUES (%s, %s)
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user, post_id))
+        connection.commit()
 
+### ~~~~~~~~~~~~~~~~~~~~~~~~ REMOVE FROM TABLE QUERIES ~~~~~~~~~~~~~~~~~~~~~~~~ ###
+
+def remove_like(user, post_id):
+    query = """
+    DELETE FROM Likes_Post
+    WHERE user_name = %s AND post_id = %s
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user, post_id))
+        connection.commit()
 
 ### ~~~~~~~~~~~~~~~~~~~~~~~~ DATA FILTERING Functions ~~~~~~~~~~~~~~~~~~~~~~~~ ###
 def get_user_homepage(user):
-    query = queries.display_homepage_query(user)
+    query = queries.display_homepage_query()
     with connection.cursor() as cursor:
         cursor.execute(query)
         result = cursor.fetchall()
         return result
     
 def get_user_posts(user):
-    query = queries.display_user_posts_query(user)
+    query = queries.display_user_posts_query()
     with connection.cursor() as cursor:
-        cursor.execute(query)
+        cursor.execute(query, (user,))
         result = cursor.fetchall()
         return result
     
 def get_user_friends(user):
-    query = queries.display_friends_query(user)
+    query = queries.display_friends_query()
     with connection.cursor() as cursor:
-        cursor.execute(query)
+        cursor.execute(query, (user,))
         result = cursor.fetchall()
         return result
 
 
+def get_user_likepost(user, post_id):
+    query = queries.like_post_query()
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user, post_id))
+        result = cursor.fetchall()
+        return result
 
 
+def decrement_likes(post_id):
+    query = """
+    UPDATE Post
+    SET likes = likes - 1
+    WHERE post_id = %s
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (post_id,))
+        connection.commit()
+
+def increment_likes(post_id):
+
+    query = """
+    UPDATE Post
+    SET likes = likes + 1
+    WHERE post_id = %s
+    """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query, (post_id,))
+        connection.commit()
+        
+def drop_procedure():
+    query = """
+    DROP PROCEDURE IF EXISTS updateLikes;
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        connection.commit()
+        
     
 
     
