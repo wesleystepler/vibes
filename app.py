@@ -100,6 +100,14 @@ def users():
     if "user" in session:
         user = session["user"]
         all_users = connect_db.get_all_users()
+
+        print(request.form.get("data"))
+        if request.method == "POST":
+            for tup in request.form:
+                if "Add Friend" in request.form[tup]:
+                    user = request.form["username"]
+                    print(user)
+
         return render_template("users.html", user = user, data = all_users)
 
 
