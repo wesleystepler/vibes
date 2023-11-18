@@ -25,7 +25,8 @@ def display_all_users_query():
     """
 
 # Display a User's friends
-def display_friends_query():
+def display_friends_query(user):
+    data = (user)
     return """
         SELECT user_name2 FROM Is_Friends_With
         WHERE user_name1 = '%s'
