@@ -86,6 +86,16 @@ def add_like(user, post_id):
         cursor.execute(query, (user, post_id))
         connection.commit()
 
+def send_request(user1, user2):
+    query = """
+    INSERT INTO Sends_Requests_To (user_name1, user_name2)
+    VALUES (%s, %s)
+    """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user1, user2))
+        connection.commit()
+
 ### ~~~~~~~~~~~~~~~~~~~~~~~~ REMOVE FROM TABLE QUERIES ~~~~~~~~~~~~~~~~~~~~~~~~ ###
 
 def remove_like(user, post_id):

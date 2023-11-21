@@ -25,5 +25,25 @@ function addLike(postID){
           console.log('Error:', error);
         }
     });
+}
 
+function sendRequestTo(username) { 
+    console.log('testing');
+    console.log('username', username);
+    $.ajax({
+        type: 'POST',
+        url: '/send_request',
+        contentType: 'application/json',
+        data: JSON.stringify({user_name2: username}),
+        success: function(response) {
+            if (response.result == 'success') {
+                console.log("Success!");  
+            }
+        },
+
+        error: function(error) {
+            console.log('Error', error);
+        }
+
+    });
 }

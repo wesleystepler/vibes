@@ -147,12 +147,21 @@ def create_post():
 
     return render_template("create_post.html")
 
-#to interact with the javascript
+
+@app.route("/logout")
+def logout():
+    # Currently no page or button for this.
+    session.pop("user", None)
+    return redirect(url_for("login"))
+
+
+#Routes to interact with the JavaScript
 @app.route("/like_post", methods=["POST"])
 def like_post():
     connect_db.drop_procedure()
     user = session["user"]
     post_id = request.json["post_id"]
+    print(f"post id: {post_id}")
     result = connect_db.get_user_likepost(user, post_id)
     
     # get total post likes
@@ -172,12 +181,15 @@ def like_post():
         connect_db.decrement_likes(post_id)
         return jsonify({"result": "unliked"})
     
+    
+@app.route("/send_request", methods=["POST"])
+def send_request():
+    user1 = session["user"]
+    user2 = request.json["user_name2"]
 
+    print(f"user1: {user1}")
+    print(f"user2: {user2}")
 
-   
-@app.route("/logout")
-def logout():
-    # Currently no page or button for this.
-    session.pop("user", None)
-    return redirect(url_for("login"))
+    return jsonify({"result": "success"})
+
 
