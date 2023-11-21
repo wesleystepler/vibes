@@ -5,18 +5,22 @@
     <head>
         <script src="/static/functions.js"></script>
     </head>
-    <h1>You Have {{num_reqs}} Friend Requests</h1>
+    <h1>All Vibes Users</h1>
     <div class="row justify-content-center">  
         <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
+            <thead>
+            <tr style="background-color:blue">
+                <th width="75%">       
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
             {% for i in data %}
             <div class="container my-4 p-3" style="background-color: #f2f2f2;">
                 <div class="row">
                   <div class="col">
-                    <p>
-                        <span class="highlight" id="user-{{i[0]}}">@{{i[0]}}</span>
-                        <input type="submit" id="accept-{{i[0]}}" value="Accept" class="btn btn-primary" onclick="acceptRequest('{{i[0]}}')" method="post" />
-                        <input type="submit" id="reject-{{i[0]}}" value="Reject" class="btn btn-danger" onclick="rejectRequest('{{i[0]}}')" method="post"  />
-                    </p>
+                    <p><span class="highlight" id="user-{{i[0]}}">{{i[1]}} {{i[2]}} - @{{i[0]}}</span></p>
+                    <input type="submit" id="add-{{i[0]}}" value="Add Friend" class="btn btn-secondary" onclick="sendRequestTo('{{i[0]}}')" method="post" />
                     </div>
                 </div>
               </div>
@@ -25,9 +29,7 @@
             </table>
     </div>
 
-
-
-
+    
 </html>
 
 

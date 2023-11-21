@@ -95,6 +95,42 @@ def user():
 def search():
     return render_template("search.html")
 
+@app.route("/users", methods=["GET", "POST"])
+def users():
+    
+    user = session["user"]
+    all_users = connect_db.get_all_users()
+
+    requested = connect_db.get_sent_requests(user)
+    friends = connect_db.get_user_friends(user)
+
+    print(requested)
+
+    requested_or_friends = []
+    for usr in requested:
+        requested_or_friends.append(usr[0])
+
+    for usr in friends:
+        requested_or_friends.append(usr[0])
+
+    print(requested_or_friends)
+
+    #List of the tuples of users who the current user is not already friends with or has already sent a request to
+    filtered_users = []
+    for usr in all_users:
+        if usr[0] not in requested_or_friends and usr[0] != user:
+            filtered_users.append(usr)
+
+
+    """print(request.form.get("data"))
+    if request.method == "POST":
+        for tup in request.form:
+            if "Add Friend" in request.form[tup]:
+                user = request.form["username"]
+                print(user)"""
+
+    return render_template("users.html", user = user, data = filtered_users)
+
 
 @app.route("/profile", methods=["GET", "POST"])
 def profile():
@@ -113,9 +149,13 @@ def friends():
         num_friends = connect_db.get_user_friends(user)
         return render_template("friends.html", data = num_friends, num = len(num_friends))
     
+    
 @app.route("/requests", methods=["GET", "POST"])
 def requests():
-    return render_template("requests.html")
+    user = session["user"]
+    reqs = connect_db.get_user_requests(user)
+
+    return render_template("requests.html", data=reqs, num_reqs = len(reqs))
    
 
 @app.route("/create_post", methods=["POST", "GET"])
@@ -132,12 +172,21 @@ def create_post():
 
     return render_template("create_post.html")
 
-#to interact with the javascript
+
+@app.route("/logout")
+def logout():
+    # Currently no page or button for this.
+    session.pop("user", None)
+    return redirect(url_for("login"))
+
+
+#Routes to interact with the JavaScript
 @app.route("/like_post", methods=["POST"])
 def like_post():
     connect_db.drop_procedure()
     user = session["user"]
     post_id = request.json["post_id"]
+    print(f"post id: {post_id}")
     result = connect_db.get_user_likepost(user, post_id)
     
     # get total post likes
@@ -157,12 +206,34 @@ def like_post():
         connect_db.decrement_likes(post_id)
         return jsonify({"result": "unliked"})
     
+    
+@app.route("/send_request", methods=["POST"])
+def send_request():
+    user1 = session["user"]
+    user2 = request.json["user_name2"]
+
+    connect_db.send_request(user1, user2)
+    return jsonify({"result": "success"})
 
 
-   
-@app.route("/logout")
-def logout():
-    # Currently no page or button for this.
-    session.pop("user", None)
-    return redirect(url_for("login"))
+@app.route("/accept_request", methods=["POST"])
+def accept_request():
+    user1 = session["user"]
+    user2 = request.json["requester"]
+
+    connect_db.add_friends(user1, user2)
+    connect_db.delete_request(user2, user1)
+
+    return jsonify({"result": "success"})
+
+
+@app.route("/reject_request", methods=["POST"])
+def reject_request():
+    user1 = request.json["requester"]
+    user2 = session["user"]
+
+    connect_db.delete_request(user1, user2)
+    return jsonify({"result": "success"})
+
+
 
