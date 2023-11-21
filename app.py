@@ -97,18 +97,39 @@ def search():
 
 @app.route("/users", methods=["GET", "POST"])
 def users():
-    if "user" in session:
-        user = session["user"]
-        all_users = connect_db.get_all_users()
+    
+    user = session["user"]
+    all_users = connect_db.get_all_users()
 
-        print(request.form.get("data"))
-        if request.method == "POST":
-            for tup in request.form:
-                if "Add Friend" in request.form[tup]:
-                    user = request.form["username"]
-                    print(user)
+    requested = connect_db.get_sent_requests(user)
+    friends = connect_db.get_user_friends(user)
 
-        return render_template("users.html", user = user, data = all_users)
+    print(requested)
+
+    requested_or_friends = []
+    for usr in requested:
+        requested_or_friends.append(usr[0])
+
+    for usr in friends:
+        requested_or_friends.append(usr[0])
+
+    print(requested_or_friends)
+
+    #List of the tuples of users who the current user is not already friends with or has already sent a request to
+    filtered_users = []
+    for usr in all_users:
+        if usr[0] not in requested_or_friends and usr[0] != user:
+            filtered_users.append(usr)
+
+
+    """print(request.form.get("data"))
+    if request.method == "POST":
+        for tup in request.form:
+            if "Add Friend" in request.form[tup]:
+                user = request.form["username"]
+                print(user)"""
+
+    return render_template("users.html", user = user, data = filtered_users)
 
 
 @app.route("/profile", methods=["GET", "POST"])
@@ -127,6 +148,7 @@ def friends():
         user = session["user"]
         num_friends = connect_db.get_user_friends(user)
         return render_template("friends.html", data = num_friends, num = len(num_friends))
+    
     
 @app.route("/requests", methods=["GET", "POST"])
 def requests():
@@ -192,5 +214,26 @@ def send_request():
 
     connect_db.send_request(user1, user2)
     return jsonify({"result": "success"})
+
+
+@app.route("/accept_request", methods=["POST"])
+def accept_request():
+    user1 = session["user"]
+    user2 = request.json["requester"]
+
+    connect_db.add_friends(user1, user2)
+    connect_db.delete_request(user2, user1)
+
+    return jsonify({"result": "success"})
+
+
+@app.route("/reject_request", methods=["POST"])
+def reject_request():
+    user1 = request.json["requester"]
+    user2 = session["user"]
+
+    connect_db.delete_request(user1, user2)
+    return jsonify({"result": "success"})
+
 
 

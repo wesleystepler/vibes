@@ -96,6 +96,21 @@ def send_request(user1, user2):
         cursor.execute(query, (user1, user2))
         connection.commit()
 
+
+def add_friends(user1, user2):
+    query = """
+    INSERT INTO Is_Friends_With (user_name1, user_name2)
+    VALUES (%s, %s)
+    """ 
+
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user1, user2))
+        connection.commit()
+
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user2, user1))
+        connection.commit()
+    
 ### ~~~~~~~~~~~~~~~~~~~~~~~~ REMOVE FROM TABLE QUERIES ~~~~~~~~~~~~~~~~~~~~~~~~ ###
 
 def remove_like(user, post_id):
@@ -105,6 +120,17 @@ def remove_like(user, post_id):
     """
     with connection.cursor() as cursor:
         cursor.execute(query, (user, post_id))
+        connection.commit()
+
+
+def delete_request(user1, user2):
+    query = """
+    DELETE FROM Sends_Request_To
+    WHERE user_name1 = %s AND user_name2 = %s
+    """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user1, user2))
         connection.commit()
 
 ### ~~~~~~~~~~~~~~~~~~~~~~~~ DATA FILTERING Functions ~~~~~~~~~~~~~~~~~~~~~~~~ ###
@@ -141,6 +167,17 @@ def get_user_requests(user):
     SELECT user_name1 FROM Sends_Request_To
     WHERE user_name2 = %s
     """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user,))
+        result = cursor.fetchall()
+        return result
+    
+def get_sent_requests(user):
+    query = """
+    SELECT user_name2 FROM Sends_Request_To
+    WHERE user_name1 = %s
+    """
+
     with connection.cursor() as cursor:
         cursor.execute(query, (user,))
         result = cursor.fetchall()

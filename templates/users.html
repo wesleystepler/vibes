@@ -20,7 +20,7 @@
                 <div class="row">
                   <div class="col">
                     <p><span class="highlight" id="user-{{i[0]}}">{{i[1]}} {{i[2]}} - @{{i[0]}}</span></p>
-                    <span class = "add-friend" id="request-{{i[0]}}" onclick="sendRequestTo('{{i[0]}}')">Add Friend</span>
+                    <input type="submit" id="add-{{i[0]}}" value="Add Friend" class="btn btn-secondary" onclick="sendRequestTo('{{i[0]}}')" method="post" />
                     </div>
                 </div>
               </div>
