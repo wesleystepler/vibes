@@ -88,7 +88,7 @@ def add_like(user, post_id):
 
 def send_request(user1, user2):
     query = """
-    INSERT INTO Sends_Requests_To (user_name1, user_name2)
+    INSERT INTO Sends_Request_To (user_name1, user_name2)
     VALUES (%s, %s)
     """
 
@@ -136,10 +136,13 @@ def get_all_users():
         result = cursor.fetchall()
         return result
     
-def get_all_users():
-    query = queries.display_all_users_query()
+def get_user_requests(user):
+    query = """
+    SELECT user_name1 FROM Sends_Request_To
+    WHERE user_name2 = %s
+    """
     with connection.cursor() as cursor:
-        cursor.execute(query)
+        cursor.execute(query, (user,))
         result = cursor.fetchall()
         return result
 

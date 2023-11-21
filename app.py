@@ -130,7 +130,10 @@ def friends():
     
 @app.route("/requests", methods=["GET", "POST"])
 def requests():
-    return render_template("requests.html")
+    user = session["user"]
+    reqs = connect_db.get_user_requests(user)
+
+    return render_template("requests.html", data=reqs, num_reqs = len(reqs))
    
 
 @app.route("/create_post", methods=["POST", "GET"])
@@ -187,9 +190,7 @@ def send_request():
     user1 = session["user"]
     user2 = request.json["user_name2"]
 
-    print(f"user1: {user1}")
-    print(f"user2: {user2}")
-
+    connect_db.send_request(user1, user2)
     return jsonify({"result": "success"})
 
 

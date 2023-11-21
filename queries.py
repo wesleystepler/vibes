@@ -25,12 +25,11 @@ def display_all_users_query():
     """
 
 # Display a User's friends
-def display_friends_query(user):
-    data = (user)
+def display_friends_query():
     return """
         SELECT user_name2 FROM Is_Friends_With
-        WHERE user_name1 = '%s'
-    """ % data
+        WHERE user_name1 = %s
+    """
 
 # Display a specific User's posts
 def display_user_posts_query():
