@@ -7,9 +7,15 @@
     <h1>Create New Post</h1>
     <body>
         <form name="mainForm" action="" method="post">   
-            <div class="row mb-3 mx-3">
-            Category
-            <input type="text" class="form-control" name="category" required />        
+            <div class="dropdown">
+                <label for="post-type">Choose a Category:</label> 
+                <select name="categories" id="categories"> 
+                    <option value="Entertainment">Entertainment</option> 
+                    <option value="Sports">Sports</option> 
+                    <option value="Books">Books</option> 
+                    <option value="Music">Music</option>
+                    <option value="Miscellaneous">Miscellaneous</option>  
+                </select>       
             </div>  
             <div class="row mb-3 mx-3">
             What's on Your Mind?

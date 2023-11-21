@@ -160,10 +160,9 @@ def requests():
 
 @app.route("/create_post", methods=["POST", "GET"])
 def create_post():
-    if "user" in session:
-        user = session["user"]
+    user = session["user"]
     if request.method == "POST":
-        category = request.form["category"]
+        category = request.form["categories"]
         content = request.form["content"]
         time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         likes = 0

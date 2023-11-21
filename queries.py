@@ -15,7 +15,7 @@ def display_homepage_query():
     # We will return to this later and set it so that only a user's
     # friend's posts are selected here
     return """
-    SELECT * FROM Post
+    SELECT * FROM Post ORDER BY post_id DESC
     """
 
 # Display All User's
