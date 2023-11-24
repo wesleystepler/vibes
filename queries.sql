@@ -163,7 +163,7 @@ WHERE reply_num = '%s';
 --Display User's Home page
 SELECT 
 category, time_posted, likes, post_text, user_name FROM Post JOIN Is_Friends_With ON Post.user_name = Is_Friends_With.user_name2 -- friends' posts
-WHERE user_name1 = '%s' -- current user
+WHERE user_name1 = %s -- current user
 ORDER BY post_id DESC; -- show most recent first, Is_Friends_With WHERE user_name1 = '%s' AND Posts.user_name2 = user_name 
 
 --Display a User's profile

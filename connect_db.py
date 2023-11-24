@@ -134,10 +134,37 @@ def delete_request(user1, user2):
         connection.commit()
 
 ### ~~~~~~~~~~~~~~~~~~~~~~~~ DATA FILTERING Functions ~~~~~~~~~~~~~~~~~~~~~~~~ ###
+# EDIT THIS TO USE A QUERY THAT GETS POSTS FROM THE USERS FRIENDS
 def get_user_homepage(user):
-    query = queries.display_homepage_query()
+    query = """
+    SELECT category, time_posted, likes, post_text, user_name, post_id 
+    FROM Post JOIN Is_Friends_With ON Post.user_name = Is_Friends_With.user_name2
+    WHERE user_name1 = %s 
+    ORDER BY post_id DESC; 
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user,))
+        result = cursor.fetchall()
+        return result
+    
+
+def get_all_vibes():
+    query = """
+    SELECT * FROM Post ORDER BY post_id DESC
+    """
+
     with connection.cursor() as cursor:
         cursor.execute(query)
+        result = cursor.fetchall()
+        return result
+    
+
+def get_filtered_vibes(category):
+    query = """
+    SELECT * FROM Post WHERE category = %s
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (category,))
         result = cursor.fetchall()
         return result
     

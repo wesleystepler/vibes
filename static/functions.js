@@ -87,3 +87,24 @@ function rejectRequest(username) {
 
     });
 }
+
+
+function filterVibes(category) { 
+    console.log('category', category);
+    $.ajax({
+        type: 'POST',
+        url: '/filter',
+        contentType: 'application/json',
+        data: JSON.stringify({category: category}),
+        success: function(response) {
+            if (response.result == 'success') {
+                console.log("Success!");  
+            }
+        },
+
+        error: function(error) {
+            console.log('Error', error);
+        }
+
+    });
+}
