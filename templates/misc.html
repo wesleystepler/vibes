@@ -4,17 +4,11 @@
 
 <html>
 <head>
-  <title>New Post</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="/static/functions.js"></script>
 </head>
 
-<a href="/create_post" class="row mb-3 mx-3">
-    <button class="btn btn-primary">New Post</button>
-</a>
-
-
-  <h2>Let's See What the Vibes Are...</h2>
+<h1>Showing All the {{category}} Vibes</h1>
   <div class="row justify-content-center">  
     <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
     <thead>
@@ -24,14 +18,14 @@
         <th>&nbsp;</th>
     </tr>
     </thead>
-    {% for i in data %}
+    {% for i in vibes %}
     <div class="container my-4 p-3" style="background-color: #f2f2f2;">
         <div class="row">
           <div class="col">
-            <p>@{{i[4]}} Posted a Vibe About {{i[0]}} at {{i[1]}}:</p>
-            <p><span class="highlight">{{i[3]}}</span></p>
-            <span class = "like-button" id="like-button-{{i[5]}}" onclick="addLike('{{i[5]}}')">&#10084;</span>
-            <span id="like-count-{{i[5]}}" class="like-count">{{i[2]}}</span> Likes
+            <p>@{{i[5]}} Posted a Vibe About {{i[1]}} at {{i[2]}}:</p>
+            <p><span class="highlight">{{i[4]}}</span></p>
+            <span class = "like-button" id="like-button-{{i[0]}}" onclick="addLike('{{i[0]}}')">&#10084;</span>
+            <span id="like-count-{{i[0]}}" class="like-count">{{i[3]}}</span> Likes
             </div>
         </div>
       </div>

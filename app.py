@@ -95,6 +95,54 @@ def user():
 def search():
     return render_template("search.html")
 
+
+@app.route("/search_vibes", methods=["GET", "POST"])
+def search_vibes():
+    categories = ['All Vibes', 'Books', 'Entertainment', 'Miscellaneous', 'Music', 'Sports']
+    return render_template("search_vibes.html", categories = categories)
+
+
+@app.route("/all_vibes", methods=["GET", "POST"])
+def all_vibes():
+    vibes = connect_db.get_all_vibes()
+    return render_template("all_vibes.html", vibes=vibes)
+
+
+@app.route("/books", methods=["GET", "POST"])
+def books():
+    vibes = connect_db.get_filtered_vibes("Books")
+    category = "Books"
+    return render_template("books.html", vibes=vibes, category=category)
+
+
+@app.route("/entertainment", methods=["GET", "POST"])
+def entertainment():
+    vibes = connect_db.get_filtered_vibes("Entertainment")
+    category = "Entertainment"
+    return render_template("entertainment.html", vibes=vibes, category=category)
+
+
+@app.route("/misc", methods=["GET", "POST"])
+def misc():
+    vibes = connect_db.get_filtered_vibes("Miscellaneous")
+    category = "Miscellaneous"
+    return render_template("misc.html", vibes=vibes, category=category)
+
+
+@app.route("/music", methods=["GET", "POST"])
+def music():
+    vibes = connect_db.get_filtered_vibes("Music")
+    category = "Music"
+    return render_template("music.html", vibes=vibes, category=category)
+
+
+@app.route("/sports", methods=["GET", "POST"])
+def sports():
+    vibes = connect_db.get_filtered_vibes("Sports")
+    category = "Sports"
+    return render_template("sports.html", vibes=vibes, category=category)
+
+
 @app.route("/users", methods=["GET", "POST"])
 def users():
     
@@ -120,14 +168,6 @@ def users():
     for usr in all_users:
         if usr[0] not in requested_or_friends and usr[0] != user:
             filtered_users.append(usr)
-
-
-    """print(request.form.get("data"))
-    if request.method == "POST":
-        for tup in request.form:
-            if "Add Friend" in request.form[tup]:
-                user = request.form["username"]
-                print(user)"""
 
     return render_template("users.html", user = user, data = filtered_users)
 
@@ -235,4 +275,19 @@ def reject_request():
     return jsonify({"result": "success"})
 
 
+# I think there's a way to use something like this to have just one dynamic page for filtering posts,
+# instead of a bunch of static ones. But I can't get it to work so it's just static for now. 
+@app.route("/filter", methods=["POST"])
+def filter():
+    category = request.json["category"]
+    
+    if category == "All Vibes":
+        vibes = connect_db.get_all_vibes()
+
+    else:
+        vibes = connect_db.get_filtered_vibes(category)
+
+    jsonify({"result": "success"})
+
+    return redirect("/vibes")
 

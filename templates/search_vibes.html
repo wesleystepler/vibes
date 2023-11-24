@@ -1,0 +1,31 @@
+{% extends "navbar.html" %}
+
+{% block content %}
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+
+    <h1>Search For Vibes By Category</h1>
+
+    <a class="row mb-3 mx-3" href="/all_vibes">
+        <input class="btn btn-primary" type="submit" method="post" value="All Vibes">
+    </a>
+    <a class="row mb-3 mx-3" href="books">
+        <input class="btn btn-primary" type="submit" method="post" value="Books">
+    </a>
+    <a class="row mb-3 mx-3" href="entertainment">
+        <input class="btn btn-primary" type="submit" method="post" value="Entertainment">
+    </a>
+    <a class="row mb-3 mx-3" href="misc">
+        <input class="btn btn-primary" type="submit" method="post" value="Miscellaneous">
+    </a>
+    <a class="row mb-3 mx-3" href="music">
+        <input class="btn btn-primary" type="submit" method="post" value="Music">
+    </a>
+    <a class="row mb-3 mx-3" href="sports">
+        <input class="btn btn-primary" type="submit" method="post" value="Sports">
+    </a>
+</html>
+
+{% endblock %}
