@@ -108,3 +108,22 @@ function filterVibes(category) {
 
     });
 }
+
+
+function deletePost(postID){
+    console.log('postID:', postID)
+    $.ajax({
+        type: 'POST',
+        url: '/delete_post',
+        contentType: 'application/json',
+        data: JSON.stringify({post_id: postID}),
+        success: function(response) {
+            if (response.result == 'success') {
+                console.log('success')
+            }
+        },
+        error: function(error) {
+          console.log('Error:', error);
+        }
+    });
+}

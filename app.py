@@ -245,6 +245,13 @@ def like_post():
         connect_db.decrement_likes(post_id)
         return jsonify({"result": "unliked"})
     
+
+@app.route("/delete_post", methods=["POST"])
+def delete_post():
+    post_id = request.json["post_id"]
+    connect_db.delete_post(post_id)
+    return jsonify({"result": "success"})
+    
     
 @app.route("/send_request", methods=["POST"])
 def send_request():
@@ -290,4 +297,7 @@ def filter():
     jsonify({"result": "success"})
 
     return redirect("/vibes")
+
+
+
 

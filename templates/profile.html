@@ -4,6 +4,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="/static/functions.js"></script>
     </head>
     <h1>Hey there, {{user}}</h1>
 
@@ -17,32 +18,31 @@
     
     <h2>Your Vibes</h2>
     <div class="row justify-content-center">  
-      <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
-      <thead>
-      <tr style="background-color:blue">
-          <th width="75%">       
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
-      </tr>
-      </thead>
-      <form name="updateForm" action="" method="post"> 
-      {% for i in data %}
-          <div>
-          <tr>
-              <td>@{{i[5]}} Posted a Vibe About {{i[1]}} at {{i[2]}}:</td>
-          </tr>
-          <tr>
-              <td>{{i[4]}}</td>
-          </tr>
-          <tr>
-              <td>{{i[3]}} Likes</td>
-          </tr>
+        <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
+        <thead>
+        <tr style="background-color:blue">
+            <th width="75%">       
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        {% for i in data %}
+        <div class="container my-4 p-3" style="background-color: #f2f2f2;">
+            <div class="row">
+              <div class="col">
+                <p>@{{i[5]}} Posted a Vibe About {{i[1]}} at {{i[2]}}:
+                    <span class="delete-button" id="delete-{{i[0]}}" style="float: right;" onclick="deletePost('{{i[0]}}')">Delete Vibe</span>
+                </p>
+                <p><span class="highlight">{{i[4]}}</span></p>
+                <span class = "like-button" id="like-button-{{i[5]}}" onclick="addLike('{{i[4]}}')">&#10084;</span>
+                <span id="like-count-{{i[5]}}" class="like-count">{{i[3]}}</span> Likes
+                </div>
+            </div>
           </div>
-          
-      </form>
-      {% endfor %}
-      </table>
-  </div>
+            
+        {% endfor %}
+        </table>
+    </div>
 </html>
 
 {% endblock %}
