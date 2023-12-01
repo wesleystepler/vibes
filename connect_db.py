@@ -249,6 +249,15 @@ def drop_procedure():
         cursor.execute(query)
         connection.commit()
         
+def delete_post(post_id):
+    query = """
+    DELETE FROM Post
+    WHERE post_id = %s
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (post_id,))
+        connection.commit()
+        
     
 
     

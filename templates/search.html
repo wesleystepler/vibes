@@ -2,18 +2,21 @@
 
 {% block content %}
 <html>
-    <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    </head>
 
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+</head>
+
+<!-- Center the div-->
+<div class="text-center">
     <h1>What're You Looking For?</h1>
+    <div class="btn-group" role="group" aria-label="Search for vibes by category">
+        <a href="/users" class="btn btn-success row mb-3 mx-3"><i class="bi bi-person"></i> Search Users</a>
+        <a href="/search_vibes" class="btn btn-info row mb-3 mx-3"><i class="bi bi-music-note-list"></i> Search Vibes</a>
+    </div>
+</div>
 
-    <a href="/users" class="row mb-3 mx-3">
-        <button class="btn btn-primary">Search Users</button>
-    </a>
-    <a href="/search_vibes" class="row mb-3 mx-3">
-        <button class="btn btn-primary">Search Vibes</button>
-    </a>
 </html>
 
 

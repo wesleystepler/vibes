@@ -15,7 +15,7 @@ function addLike(postID){
             if (response.result == 'liked') {
                 var likeCount = parseInt($('#like-count-' + postID).text());
                 $('#like-count-' + postID).text(likeCount+1);
-            
+                
             } else if (response.result == 'unliked') {
                 var likeCount = parseInt($('#like-count-' + postID).text());
                 $('#like-count-' + postID).text(likeCount-1);
@@ -25,6 +25,7 @@ function addLike(postID){
           console.log('Error:', error);
         }
     });
+
 }
 
 function sendRequestTo(username) { 

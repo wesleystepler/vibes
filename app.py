@@ -219,6 +219,12 @@ def logout():
     return redirect(url_for("login"))
 
 
+@app.route('/deletePost/<int:post_id>', methods=['GET', 'POST'])
+def delete_post(post_id):
+    connect_db.delete_post(post_id)
+    
+    return redirect(url_for("profile"))
+
 #Routes to interact with the JavaScript
 @app.route("/like_post", methods=["POST"])
 def like_post():
