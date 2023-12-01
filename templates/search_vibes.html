@@ -2,30 +2,24 @@
 
 {% block content %}
 <html>
-    <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    </head>
 
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+</head>
+<div class="text-center">
     <h1>Search For Vibes By Category</h1>
 
-    <a class="row mb-3 mx-3" href="/all_vibes">
-        <input class="btn btn-primary" type="submit" method="post" value="All Vibes">
-    </a>
-    <a class="row mb-3 mx-3" href="books">
-        <input class="btn btn-primary" type="submit" method="post" value="Books">
-    </a>
-    <a class="row mb-3 mx-3" href="entertainment">
-        <input class="btn btn-primary" type="submit" method="post" value="Entertainment">
-    </a>
-    <a class="row mb-3 mx-3" href="misc">
-        <input class="btn btn-primary" type="submit" method="post" value="Miscellaneous">
-    </a>
-    <a class="row mb-3 mx-3" href="music">
-        <input class="btn btn-primary" type="submit" method="post" value="Music">
-    </a>
-    <a class="row mb-3 mx-3" href="sports">
-        <input class="btn btn-primary" type="submit" method="post" value="Sports">
-    </a>
+    <div class="btn-group" role="group" aria-label="Search for vibes by category">
+        <a href="/all_vibes" class="btn btn-primary"><i class="bi bi-grid-3x3-gap"></i> All Vibes</a>
+        <a href="books" class="btn btn-success"><i class="bi bi-book"></i> Books</a>
+        <a href="entertainment" class="btn btn-danger"><i class="bi bi-tv"></i> Entertainment</a>
+        <a href="misc" class="btn btn-warning"><i class="bi bi-card-list"></i> Miscellaneous</a>
+        <a href="music" class="btn btn-info"><i class="bi bi-music-note-list"></i> Music</a>
+        <a href="sports" class="btn btn-dark"><i class="bi bi-trophy"></i> Sports</a>
+    </div>
+</div>
+
 </html>
 
 {% endblock %}
