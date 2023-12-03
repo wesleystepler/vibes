@@ -121,15 +121,22 @@ def all_vibes():
     vibes = connect_db.get_all_vibes()
    # print(vibes)
     comments = connect_db.get_all_comments()
+    
+    replies = connect_db.get_all_replies()
+    
     newdata = []
-    #match up posts with comments
+    #match up posts with comments and comment with replies
     for post in vibes:
-        new_comments = []
+        post_comments = []
         for comment in comments:
             if comment[1] == post[0]:
-                new_comments.append(comment)
-        newdata.append((post, new_comments))
-    #print(newdata)
+                comment_replies = []
+                for reply in replies:
+                    if reply[1] == comment[0]:
+                        comment_replies.append(reply)
+                post_comments.append((comment, comment_replies))
+        newdata.append((post, post_comments))
+    print(newdata)
     
     return render_template("all_vibes.html", vibes=newdata)
 
@@ -397,7 +404,7 @@ def reject_request():
 
 
 # I think there's a way to use something like this to have just one dynamic page for filtering posts,
-# instead of a bunch of static ones. But I can't get it to work so it's just static for now. 
+# instead of a bunch of static ones. But I can't get it to work so it's jus t static for now. 
 @app.route("/filter", methods=["POST"])
 def filter():
     category = request.json["category"]

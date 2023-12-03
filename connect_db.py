@@ -327,3 +327,12 @@ def add_comment(user_name, post_id, comment_text, comment_likes):
         cursor.execute(query, (user_name, post_id, comment_text, comment_likes))
         connection.commit()
 
+def get_all_replies():
+    query = """
+    SELECT * FROM Replies
+    ORDER BY comment_id DESC, reply_id DESC
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result

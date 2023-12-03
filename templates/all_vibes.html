@@ -43,21 +43,28 @@
 
 
 
-        <div class="row">
-          <div class="col">
-            {% for comment in i[1] %}
-            <div class="comment-container" style="background-color: #f9f9f9; padding: 10px; margin-bottom: 10px;">
-              <p>@{{ comment[2] }} Replied</p>
-              <p>{{ comment[3] }}</p>
-              <span class="like-button" id="like-button-{{ comment[0] }}" onclick="addCommentLike('{{ comment[0] }}')">&#10084;</span>
-              <span id="comment-like-count-{{ comment[0] }}" class="comment-like-count-">{{ comment[4] }}</span> Likes
-           </div>
-            {% endfor %}
-          </div>
+         <div class="row">
+            <div class="col">
+                {% for comment in i[1] %}
+                    <div class="comment-container" style="background-color: #f9f9f9; padding: 10px; margin-bottom: 10px;">
+                        <p>@{{ comment[0][2] }} Replied</p>
+                        <p>{{ comment[0][3] }}</p>
+                        <span class="like-button" id="like-button-{{ comment[0][0] }}" onclick="addCommentLike('{{ comment[0][0] }}')">&#10084;</span>
+                        <span id="comment-like-count-{{ comment[0][0] }}" class="comment-like-count-">{{ comment[0][4] }}</span> Likes
+                    </div>
+                    {% for reply in comment[1] %}
+                        <div class="comment-container" style="background-color: #fcfcfc; padding: 10px; margin-bottom: 10px; margin-left: 30px;">
+                            <p>@{{ reply[2] }} Replied</p>
+                            <p>{{ reply[3] }}</p>
+                            <span class="like-button" id="like-button-{{ reply[0] }}" onclick="addCommentLike('{{ reply[0] }}')">&#10084;</span>
+                            <span id="comment-like-count-{{ reply[0] }}" class="comment-like-count-">{{ reply[5] }}</span> Likes
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
         </div>
-      </div>
-        
-    {% endfor %}
+    </div>
+{% endfor %}
     </table>
 </div>
 
