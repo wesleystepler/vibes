@@ -23,6 +23,7 @@ CREATE TABLE Comment (
     post_id INT,
     user_name VARCHAR(50),
     comment_text VARCHAR(280),
+    comment_likes INT,
     FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
     FOREIGN KEY (user_name) REFERENCES Users(user_name) ON DELETE CASCADE
 );

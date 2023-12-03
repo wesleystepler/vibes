@@ -75,6 +75,7 @@ def signup():
 # def bad_login():
 #     return render_template("bad_login.html")
 
+
 @app.route("/home", methods=["POST", "GET"])
 def user():
    # Very basic user page. This will eventually be the user's home page.
@@ -104,8 +105,16 @@ def search_vibes():
 
 @app.route("/all_vibes", methods=["GET", "POST"])
 def all_vibes():
+    user = session["user"]
+    if request.method == "POST":
+        text = request.form["comment"]
+        post_id = request.form["post_id"]
+        connect_db.add_comment(post_id, user, text)
+
+    post_id = request.form.get('post_id')
     vibes = connect_db.get_all_vibes()
-    return render_template("all_vibes.html", vibes=vibes)
+    comments = connect_db.get_comments(post_id)
+    return render_template("all_vibes.html", vibes=vibes, comments=comments)
 
 
 @app.route("/books", methods=["GET", "POST"])
@@ -219,13 +228,14 @@ def logout():
     return redirect(url_for("login"))
 
 
+### ~~~~~~ ROUTES TO INTERACT WITH THE JAVASCRIPT ~~~~~~ ###
 @app.route('/deletePost/<int:post_id>', methods=['GET', 'POST'])
 def delete_post(post_id):
     connect_db.delete_post(post_id)
     
     return redirect(url_for("profile"))
 
-#Routes to interact with the JavaScript
+
 @app.route("/like_post", methods=["POST"])
 def like_post():
     connect_db.drop_procedure()
@@ -250,6 +260,14 @@ def like_post():
         connect_db.remove_like(user, post_id)
         connect_db.decrement_likes(post_id)
         return jsonify({"result": "unliked"})
+    
+
+@app.route("/comment", methods=["POST"])
+def comment(val):
+    #post_id = request.json["post_id"]
+    #return jsonify({"result": "success"})
+    print(val)
+
     
     
 @app.route("/send_request", methods=["POST"])

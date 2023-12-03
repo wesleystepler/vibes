@@ -86,6 +86,16 @@ def add_like(user, post_id):
         cursor.execute(query, (user, post_id))
         connection.commit()
 
+def add_comment(post_id, user, text):
+    query = """
+    INSERT INTO Comment (post_id, user_name, comment_text, comment_likes)
+    VALUES (%s, %s, %s, %s)
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (post_id, user, text, 0))
+        connection.commit()
+
+
 def send_request(user1, user2):
     query = """
     INSERT INTO Sends_Request_To (user_name1, user_name2)
@@ -155,6 +165,16 @@ def get_all_vibes():
 
     with connection.cursor() as cursor:
         cursor.execute(query)
+        result = cursor.fetchall()
+        return result
+    
+
+def get_comments(post_id):
+    query = """
+    SELECT * FROM Comment WHERE post_id = %s
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (post_id,))
         result = cursor.fetchall()
         return result
     
