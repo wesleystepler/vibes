@@ -4,6 +4,18 @@ var script = document.createElement('script');
 script.src = 'https://code.jquery.com/jquery-3.6.3.min.js'; // Check https://jquery.com/ for the current version
 document.getElementsByTagName('head')[0].appendChild(script);
 
+
+function toggleCommentForm(postID) {
+    var commentForm = $('#comment-form-' + postID);
+    if (commentForm.css('display') == 'none') {
+        commentForm.css('display', 'block');
+    } else {
+        commentForm.css('display', 'none');
+    }
+}
+
+
+
 function addLike(postID){
     console.log('postID:', postID)
     $.ajax({
@@ -19,6 +31,30 @@ function addLike(postID){
             } else if (response.result == 'unliked') {
                 var likeCount = parseInt($('#like-count-' + postID).text());
                 $('#like-count-' + postID).text(likeCount-1);
+            }
+        },
+        error: function(error) {
+          console.log('Error:', error);
+        }
+    });
+
+}
+
+function addCommentLike(commentID){
+    console.log('commentID:', commentID)
+    $.ajax({
+        type: 'POST',
+        url: '/like_comment',
+        contentType: 'application/json',
+        data: JSON.stringify({comment_id: commentID}),
+        success: function(response) {
+            if (response.result == 'liked') {
+                var likeCount = parseInt($('#comment-like-count-' + commentID).text());
+                $('#comment-like-count-' + commentID).text(likeCount+1);
+                
+            } else if (response.result == 'unliked') {
+                var likeCount = parseInt($('#comment-like-count-' + commentID).text());
+                $('#comment-like-count-' + commentID).text(likeCount-1);
             }
         },
         error: function(error) {
