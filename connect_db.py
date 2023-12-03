@@ -218,6 +218,55 @@ def get_user_likepost(user, post_id):
         result = cursor.fetchall()
         return result
 
+def get_user_likecomment(user, comment_id):
+    query = """
+    SELECT * FROM Likes_Comment
+    WHERE user_name = %s AND comment_id = %s
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user, comment_id))
+        result = cursor.fetchall()
+        return result
+
+def add_like_comment(user, comment_id):
+    query = """
+    INSERT INTO Likes_Comment (user_name, comment_id)
+    VALUES (%s, %s)
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user, comment_id))
+        connection.commit()
+
+def remove_like_comment(user, comment_id):
+    query = """
+    DELETE FROM Likes_Comment
+    WHERE user_name = %s AND comment_id = %s
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user, comment_id))
+        connection.commit()
+
+def increment_likes_comment(comment_id):
+    query = """
+    UPDATE Comment
+    SET comment_likes = comment_likes + 1
+    WHERE comment_id = %s
+    """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query, (comment_id,))
+        connection.commit()
+
+def decrement_likes_comment(comment_id):
+    query = """
+    UPDATE Comment
+    SET comment_likes = comment_likes - 1
+    WHERE comment_id = %s
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (comment_id,))
+        connection.commit()
+        
 
 def decrement_likes(post_id):
     query = """
@@ -259,6 +308,14 @@ def delete_post(post_id):
         connection.commit()
         
     
-
+def get_all_comments():
+    query = """
+    SELECT * FROM Comment
+    ORDER BY post_id DESC, comment_id DESC
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
     
 

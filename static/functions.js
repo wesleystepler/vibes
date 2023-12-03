@@ -28,6 +28,30 @@ function addLike(postID){
 
 }
 
+function addCommentLike(commentID){
+    console.log('commentID:', commentID)
+    $.ajax({
+        type: 'POST',
+        url: '/like_comment',
+        contentType: 'application/json',
+        data: JSON.stringify({comment_id: commentID}),
+        success: function(response) {
+            if (response.result == 'liked') {
+                var likeCount = parseInt($('#comment-like-count-' + commentID).text());
+                $('#comment-like-count-' + commentID).text(likeCount+1);
+                
+            } else if (response.result == 'unliked') {
+                var likeCount = parseInt($('#comment-like-count-' + commentID).text());
+                $('#comment-like-count-' + commentID).text(likeCount-1);
+            }
+        },
+        error: function(error) {
+          console.log('Error:', error);
+        }
+    });
+
+}
+
 function sendRequestTo(username) { 
     console.log('username', username);
     $.ajax({

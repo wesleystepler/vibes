@@ -23,6 +23,7 @@ CREATE TABLE Comment (
     post_id INT,
     user_name VARCHAR(50),
     comment_text VARCHAR(280),
+    likes INT,
     FOREIGN KEY (post_id) REFERENCES Post(post_id) ON DELETE CASCADE,
     FOREIGN KEY (user_name) REFERENCES Users(user_name) ON DELETE CASCADE
 );
@@ -163,7 +164,7 @@ WHERE reply_num = '%s';
 --Display User's Home page
 SELECT 
 category, time_posted, likes, post_text, user_name FROM Post JOIN Is_Friends_With ON Post.user_name = Is_Friends_With.user_name2 -- friends' posts
-WHERE user_name1 = %s -- current user
+WHERE user_name1 = '%s' -- current user
 ORDER BY post_id DESC; -- show most recent first, Is_Friends_With WHERE user_name1 = '%s' AND Posts.user_name2 = user_name 
 
 --Display a User's profile
@@ -196,10 +197,3 @@ WHERE Post.post_id = Liked_Post_ID;
 $$
 DELIMITER ;
 
-DELIMITER $$
-CREATE PROCEDURE updateLikes(IN Liked_Post_ID INT)
-UPDATE Post
-SET Post.likes = Post.likes + 1 
-WHERE Post.post_id = Liked_Post_ID;
-$$
-DELIMITER ;

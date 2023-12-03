@@ -22,14 +22,26 @@
     <div class="container my-4 p-3" style="background-color: #f2f2f2;">
         <div class="row">
           <div class="col">
-            <p>@{{i[5]}} Posted a Vibe About {{i[1]}} at {{i[2]}}:</p>
-            <p><span class="highlight">{{i[4]}}</span></p>
-            <span class = "like-button" id="like-button-{{i[0]}}" onclick="addLike('{{i[0]}}')">&#10084;</span>
-            <span id="like-count-{{i[0]}}" class="like-count">{{i[3]}}</span> Likes
+            <p>@{{i[0][5]}} Posted a Vibe About {{i[0][1]}} at {{i[0][2]}}:</p>
+            <p><span class="highlight">{{i[0][4]}}</span></p>
+            <span class = "like-button" id="like-button-{{i[0][0]}}" onclick="addLike('{{i[0][0]}}')">&#10084;</span>
+            <span id="like-count-{{i[0][0]}}" class="like-count">{{i[0][3]}}</span> Likes
             </div>
         </div>
-      </div>
-        
+      <div class="row">
+        <div class="col">
+          {% for comment in i[1] %}
+          <div class="comment-container" style="background-color: #f9f9f9; padding: 10px; margin-bottom: 10px;">
+            <p>@{{ comment[2] }} Replied</p>
+            <p>Comment: {{ comment[3] }}</p>
+            <span class="like-button" id="like-button-{{ comment[0] }}" onclick="addCommentLike('{{ comment[0] }}')">&#10084;</span>
+            <span id="comment-like-count-{{ comment[0] }}" class="comment-like-count-">{{ comment[4] }}</span> Likes
+         </div>
+          {% endfor %}
+        </div>
+      </div>  
+    </div>
+ 
     {% endfor %}
     </table>
 </div>

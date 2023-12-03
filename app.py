@@ -86,7 +86,21 @@ def user():
                print()
 
        all_posts = connect_db.get_user_homepage(user)
-       return render_template("home.html", user = user, data = all_posts)
+       all_comments = connect_db.get_all_comments()
+       print(all_posts)
+       print(all_comments)
+       newdata = []
+       #match up posts with comments
+       
+       for post in all_posts:
+            comments = []
+            for comment in all_comments:
+                if comment[1] == post[0]:
+                    comments.append(comment)
+            newdata.append((post, comments))
+            
+       print(newdata)       
+       return render_template("home.html", user = user, data = newdata)
    else:
        return redirect(url_for("login"))
    
@@ -105,42 +119,112 @@ def search_vibes():
 @app.route("/all_vibes", methods=["GET", "POST"])
 def all_vibes():
     vibes = connect_db.get_all_vibes()
-    return render_template("all_vibes.html", vibes=vibes)
+   # print(vibes)
+    comments = connect_db.get_all_comments()
+    newdata = []
+    #match up posts with comments
+    for post in vibes:
+        new_comments = []
+        for comment in comments:
+            if comment[1] == post[0]:
+                new_comments.append(comment)
+        newdata.append((post, new_comments))
+    #print(newdata)
+    
+    return render_template("all_vibes.html", vibes=newdata)
 
 
 @app.route("/books", methods=["GET", "POST"])
 def books():
     vibes = connect_db.get_filtered_vibes("Books")
     category = "Books"
-    return render_template("books.html", vibes=vibes, category=category)
+    
+    all_comments = connect_db.get_all_comments()
+    
+    newdata = []
+    #match up posts with comments
+    for post in vibes:
+        comments = []
+        for comment in all_comments:
+            if comment[1] == post[0]:
+                comments.append(comment)
+        newdata.append((post, comments))
+        
+    return render_template("books.html", vibes=newdata, category=category)
 
 
 @app.route("/entertainment", methods=["GET", "POST"])
 def entertainment():
     vibes = connect_db.get_filtered_vibes("Entertainment")
     category = "Entertainment"
-    return render_template("entertainment.html", vibes=vibes, category=category)
+    
+    all_comments = connect_db.get_all_comments()
+    
+    newdata = []
+    #match up posts with comments
+    for post in vibes:
+        comments = []
+        for comment in all_comments:
+            if comment[1] == post[0]:
+                comments.append(comment)
+        newdata.append((post, comments))
+        
+    return render_template("entertainment.html", vibes=newdata, category=category)
 
 
 @app.route("/misc", methods=["GET", "POST"])
 def misc():
     vibes = connect_db.get_filtered_vibes("Miscellaneous")
     category = "Miscellaneous"
-    return render_template("misc.html", vibes=vibes, category=category)
+    
+    all_comments = connect_db.get_all_comments()
+    
+    newdata = []
+    #match up posts with comments
+    for post in vibes:
+        comments = []
+        for comment in all_comments:
+            if comment[1] == post[0]:
+                comments.append(comment)
+        newdata.append((post, comments))
+    return render_template("misc.html", vibes=newdata, category=category)
 
 
 @app.route("/music", methods=["GET", "POST"])
 def music():
     vibes = connect_db.get_filtered_vibes("Music")
     category = "Music"
-    return render_template("music.html", vibes=vibes, category=category)
+    
+    all_comments = connect_db.get_all_comments()
+    
+    newdata = []
+    #match up posts with comments
+    for post in vibes:
+        comments = []
+        for comment in all_comments:
+            if comment[1] == post[0]:
+                comments.append(comment)
+        newdata.append((post, comments))
+    
+    return render_template("music.html", vibes=newdata, category=category)
 
 
 @app.route("/sports", methods=["GET", "POST"])
 def sports():
     vibes = connect_db.get_filtered_vibes("Sports")
     category = "Sports"
-    return render_template("sports.html", vibes=vibes, category=category)
+    
+    all_comments = connect_db.get_all_comments()
+    
+    newdata = []
+    #match up posts with comments
+    for post in vibes:
+        comments = []
+        for comment in all_comments:
+            if comment[1] == post[0]:
+                comments.append(comment)
+        newdata.append((post, comments))
+    return render_template("sports.html", vibes=newdata, category=category)
 
 
 @app.route("/users", methods=["GET", "POST"])
@@ -178,7 +262,18 @@ def profile():
         user = session["user"]
 
         user_posts = connect_db.get_user_posts(user)
-        return render_template("profile.html", user = user, data = user_posts)
+        
+        all_comments = connect_db.get_all_comments()
+        
+        newdata = []
+        #match up posts with comments
+        for post in user_posts:
+            comments = []
+            for comment in all_comments:
+                if comment[1] == post[0]:
+                    comments.append(comment)
+            newdata.append((post, comments))
+        return render_template("profile.html", user = user, data = newdata)
     return render_template("profile.html")
 
 
@@ -228,15 +323,14 @@ def delete_post(post_id):
 #Routes to interact with the JavaScript
 @app.route("/like_post", methods=["POST"])
 def like_post():
-    connect_db.drop_procedure()
     user = session["user"]
     post_id = request.json["post_id"]
     print(f"post id: {post_id}")
     result = connect_db.get_user_likepost(user, post_id)
     
     # get total post likes
-    homepage = connect_db.get_user_homepage(user)
-    print(homepage)
+    # homepage = connect_db.get_user_homepage(user)
+    # print(homepage)
     
     
     result = connect_db.get_user_likepost(user, post_id)
@@ -250,7 +344,28 @@ def like_post():
         connect_db.remove_like(user, post_id)
         connect_db.decrement_likes(post_id)
         return jsonify({"result": "unliked"})
+
+@app.route("/like_comment", methods=["POST"]) 
+def like_comment():
+    user = session["user"]
+    comment_id = request.json["comment_id"]
+    print(f"comment id: {comment_id}")    
+    # get total post likes
+    # homepage = connect_db.get_user_homepage(user)
+    # print(homepage)
     
+    
+    result = connect_db.get_user_likecomment(user, comment_id)
+    print(result)   
+    
+    if len(result) == 0:
+        connect_db.add_like_comment(user, comment_id)
+        connect_db.increment_likes_comment(comment_id)
+        return jsonify({"result": "liked"})
+    else:
+        connect_db.remove_like_comment(user, comment_id)
+        connect_db.decrement_likes_comment(comment_id)
+        return jsonify({"result": "unliked"})
     
 @app.route("/send_request", methods=["POST"])
 def send_request():
