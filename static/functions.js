@@ -4,6 +4,18 @@ var script = document.createElement('script');
 script.src = 'https://code.jquery.com/jquery-3.6.3.min.js'; // Check https://jquery.com/ for the current version
 document.getElementsByTagName('head')[0].appendChild(script);
 
+
+function toggleCommentForm(postID) {
+    var commentForm = $('#comment-form-' + postID);
+    if (commentForm.css('display') == 'none') {
+        commentForm.css('display', 'block');
+    } else {
+        commentForm.css('display', 'none');
+    }
+}
+
+
+
 function addLike(postID){
     console.log('postID:', postID)
     $.ajax({

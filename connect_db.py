@@ -317,5 +317,13 @@ def get_all_comments():
         cursor.execute(query)
         result = cursor.fetchall()
         return result
-    
+
+def add_comment(user_name, post_id, comment_text, comment_likes):
+    query = """
+    INSERT INTO Comment (user_name, post_id, comment_text, comment_likes)
+    VALUES (%s, %s, %s, %s)
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user_name, post_id, comment_text, comment_likes))
+        connection.commit()
 

@@ -412,3 +412,13 @@ def filter():
 
     return redirect("/vibes")
 
+@app.route("/add_comment", methods=["POST"])
+def add_comment():
+    if "user" in session and request.method == "POST":
+        user = session["user"]
+        post_id = request.form["post_id"]
+        comment = request.form["comment"]
+        time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        likes = 0
+        connect_db.add_comment(user,post_id,comment, likes)
+        return redirect(request.referrer)
