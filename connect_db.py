@@ -249,7 +249,7 @@ def remove_like_comment(user, comment_id):
 def increment_likes_comment(comment_id):
     query = """
     UPDATE Comment
-    SET comment_likes = comment_likes + 1
+    SET likes = likes + 1
     WHERE comment_id = %s
     """
 
@@ -260,7 +260,7 @@ def increment_likes_comment(comment_id):
 def decrement_likes_comment(comment_id):
     query = """
     UPDATE Comment
-    SET comment_likes = comment_likes - 1
+    SET likes = likes - 1
     WHERE comment_id = %s
     """
     with connection.cursor() as cursor:
@@ -359,13 +359,13 @@ def get_all_comments():
         result = cursor.fetchall()
         return result
 
-def add_comment(user_name, post_id, comment_text, comment_likes):
+def add_comment(user_name, post_id, comment_text, likes):
     query = """
-    INSERT INTO Comment (user_name, post_id, comment_text, comment_likes)
+    INSERT INTO Comment (user_name, post_id, comment_text, likes)
     VALUES (%s, %s, %s, %s)
     """
     with connection.cursor() as cursor:
-        cursor.execute(query, (user_name, post_id, comment_text, comment_likes))
+        cursor.execute(query, (user_name, post_id, comment_text, likes))
         connection.commit()
         
 def add_reply(user_name, comment_id, reply_text,time_stamp, likes):
