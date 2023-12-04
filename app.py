@@ -363,11 +363,11 @@ def like_post():
     result = connect_db.get_user_likepost(user, post_id)
     if len(result) == 0:
         connect_db.add_like(user, post_id)
-        connect_db.increment_likes(post_id)
+        # connect_db.increment_likes(post_id)
         return jsonify({"result": "liked"})
     else:
         connect_db.remove_like(user, post_id)
-        connect_db.decrement_likes(post_id)
+        # connect_db.decrement_likes(post_id)
         return jsonify({"result": "unliked"})
 
 @app.route("/like_reply", methods=["POST"])
@@ -402,11 +402,11 @@ def like_comment():
     
     if len(result) == 0:
         connect_db.add_like_comment(user, comment_id)
-        connect_db.increment_likes_comment(comment_id)
+        # connect_db.increment_likes_comment(comment_id)
         return jsonify({"result": "liked"})
     else:
         connect_db.remove_like_comment(user, comment_id)
-        connect_db.decrement_likes_comment(comment_id)
+        # connect_db.decrement_likes_comment(comment_id)
         return jsonify({"result": "unliked"})
     
 @app.route("/send_request", methods=["POST"])
