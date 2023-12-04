@@ -289,15 +289,56 @@ def increment_likes(post_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (post_id,))
         connection.commit()
-        
-def drop_procedure():
+
+def get_user_likereply(user, reply_id):
     query = """
-    DROP PROCEDURE IF EXISTS updateLikes;
+    SELECT * FROM likes_reply
+    WHERE user_name = %s AND reply_id = %s
     """
     with connection.cursor() as cursor:
-        cursor.execute(query)
+        cursor.execute(query, (user, reply_id))
+        result = cursor.fetchall()
+        return result
+
+def add_like_reply(user, reply_id):
+    query = """
+    INSERT INTO likes_reply (user_name, reply_id)
+    VALUES (%s, %s)
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user, reply_id))
         connection.commit()
-        
+
+def remove_like_reply(user, reply_id):
+    query = """
+    DELETE FROM likes_reply
+    WHERE user_name = %s AND reply_id = %s
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user, reply_id))
+        connection.commit()
+
+def increment_likes_reply(reply_id):
+    query = """
+    UPDATE Replies
+    SET likes = likes + 1
+    WHERE reply_id = %s
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (reply_id,))
+        connection.commit()
+
+def decrement_likes_reply(reply_id):
+    query = """
+    UPDATE Replies
+    SET likes = likes - 1
+    WHERE reply_id = %s
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (reply_id,))
+        connection.commit()
+    
+
 def delete_post(post_id):
     query = """
     DELETE FROM Post
@@ -325,6 +366,15 @@ def add_comment(user_name, post_id, comment_text, comment_likes):
     """
     with connection.cursor() as cursor:
         cursor.execute(query, (user_name, post_id, comment_text, comment_likes))
+        connection.commit()
+        
+def add_reply(user_name, comment_id, reply_text,time_stamp, likes):
+    query = """
+    INSERT INTO Replies (user_name, comment_id, reply_text, time_stamp, likes)
+    VALUES (%s, %s, %s, %s, %s)
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query, (user_name, comment_id, reply_text, time_stamp, likes))
         connection.commit()
 
 def get_all_replies():

@@ -6,6 +6,7 @@ document.getElementsByTagName('head')[0].appendChild(script);
 
 
 function toggleCommentForm(postID) {
+    event.preventDefault();
     var commentForm = $('#comment-form-' + postID);
     if (commentForm.css('display') == 'none') {
         commentForm.css('display', 'block');
@@ -13,6 +14,18 @@ function toggleCommentForm(postID) {
         commentForm.css('display', 'none');
     }
 }
+
+function toggleReplyForm(commentID) {
+    event.preventDefault();
+    var replyForm = $('#reply-form-' + commentID);
+    if (replyForm.css('display') == 'none') {
+        replyForm.css('display', 'block');
+    }
+    else {
+        replyForm.css('display', 'none');
+    }
+}
+
 
 
 

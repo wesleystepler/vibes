@@ -78,31 +78,32 @@ def signup():
 @app.route("/home", methods=["POST", "GET"])
 def user():
    # Very basic user page. This will eventually be the user's home page.
-   if "user" in session:
-       user = session["user"]
+    if "user" in session:
+        user = session["user"]
 
-       if request.method == "POST":
-           if "Create Post" in request.form:
-               print()
+        if request.method == "POST":
+            if "Create Post" in request.form:
+                print()
 
-       all_posts = connect_db.get_user_homepage(user)
-       all_comments = connect_db.get_all_comments()
-       print(all_posts)
-       print(all_comments)
-       newdata = []
-       #match up posts with comments
-       
-       for post in all_posts:
-            comments = []
-            for comment in all_comments:
+        all_posts = connect_db.get_user_homepage(user)
+        comments = connect_db.get_all_comments()
+        replies = connect_db.get_all_replies()
+        
+        newdata = []
+        #match up posts with comments
+        for post in all_posts:
+            post_comments = []
+            for comment in comments:
                 if comment[1] == post[5]:
-                    comments.append(comment)
-            newdata.append((post, comments))
+                    comment_replies = []
+                    for reply in replies:
+                        if reply[1] == comment[0]:
+                            comment_replies.append(reply)
+                    post_comments.append((comment, comment_replies))
             
-       print(newdata)       
-       return render_template("home.html", user = user, data = newdata)
-   else:
-       return redirect(url_for("login"))
+        return render_template("home.html", user = user, data = newdata)
+    else:
+        return redirect(url_for("login"))
    
 
 @app.route("/search", methods=["POST", "GET"])
@@ -125,7 +126,6 @@ def all_vibes():
     replies = connect_db.get_all_replies()
     
     newdata = []
-    #match up posts with comments and comment with replies
     for post in vibes:
         post_comments = []
         for comment in comments:
@@ -136,7 +136,6 @@ def all_vibes():
                         comment_replies.append(reply)
                 post_comments.append((comment, comment_replies))
         newdata.append((post, post_comments))
-    print(newdata)
     
     return render_template("all_vibes.html", vibes=newdata)
 
@@ -146,16 +145,21 @@ def books():
     vibes = connect_db.get_filtered_vibes("Books")
     category = "Books"
     
-    all_comments = connect_db.get_all_comments()
+    comments = connect_db.get_all_comments()
+    replies = connect_db.get_all_replies()
     
     newdata = []
     #match up posts with comments
     for post in vibes:
-        comments = []
-        for comment in all_comments:
+        post_comments = []
+        for comment in comments:
             if comment[1] == post[0]:
-                comments.append(comment)
-        newdata.append((post, comments))
+                comment_replies = []
+                for reply in replies:
+                    if reply[1] == comment[0]:
+                        comment_replies.append(reply)
+                post_comments.append((comment, comment_replies))
+        newdata.append((post, post_comments))
         
     return render_template("books.html", vibes=newdata, category=category)
 
@@ -165,16 +169,21 @@ def entertainment():
     vibes = connect_db.get_filtered_vibes("Entertainment")
     category = "Entertainment"
     
-    all_comments = connect_db.get_all_comments()
+    comments = connect_db.get_all_comments()
+    replies = connect_db.get_all_replies()
     
     newdata = []
     #match up posts with comments
     for post in vibes:
-        comments = []
-        for comment in all_comments:
+        post_comments = []
+        for comment in comments:
             if comment[1] == post[0]:
-                comments.append(comment)
-        newdata.append((post, comments))
+                comment_replies = []
+                for reply in replies:
+                    if reply[1] == comment[0]:
+                        comment_replies.append(reply)
+                post_comments.append((comment, comment_replies))
+        newdata.append((post, post_comments))
         
     return render_template("entertainment.html", vibes=newdata, category=category)
 
@@ -184,16 +193,21 @@ def misc():
     vibes = connect_db.get_filtered_vibes("Miscellaneous")
     category = "Miscellaneous"
     
-    all_comments = connect_db.get_all_comments()
+    comments = connect_db.get_all_comments()
+    replies = connect_db.get_all_replies()
     
     newdata = []
     #match up posts with comments
     for post in vibes:
-        comments = []
-        for comment in all_comments:
+        post_comments = []
+        for comment in comments:
             if comment[1] == post[0]:
-                comments.append(comment)
-        newdata.append((post, comments))
+                comment_replies = []
+                for reply in replies:
+                    if reply[1] == comment[0]:
+                        comment_replies.append(reply)
+                post_comments.append((comment, comment_replies))
+        newdata.append((post, post_comments))
     return render_template("misc.html", vibes=newdata, category=category)
 
 
@@ -202,16 +216,21 @@ def music():
     vibes = connect_db.get_filtered_vibes("Music")
     category = "Music"
     
-    all_comments = connect_db.get_all_comments()
+    comments = connect_db.get_all_comments()
+    replies = connect_db.get_all_replies()
     
     newdata = []
     #match up posts with comments
     for post in vibes:
-        comments = []
-        for comment in all_comments:
+        post_comments = []
+        for comment in comments:
             if comment[1] == post[0]:
-                comments.append(comment)
-        newdata.append((post, comments))
+                comment_replies = []
+                for reply in replies:
+                    if reply[1] == comment[0]:
+                        comment_replies.append(reply)
+                post_comments.append((comment, comment_replies))
+        newdata.append((post, post_comments))
     
     return render_template("music.html", vibes=newdata, category=category)
 
@@ -221,16 +240,20 @@ def sports():
     vibes = connect_db.get_filtered_vibes("Sports")
     category = "Sports"
     
-    all_comments = connect_db.get_all_comments()
+    comments = connect_db.get_all_comments()
+    replies = connect_db.get_all_replies()
     
     newdata = []
     #match up posts with comments
     for post in vibes:
-        comments = []
-        for comment in all_comments:
+        post_comments = []
+        for comment in comments:
             if comment[1] == post[0]:
-                comments.append(comment)
-        newdata.append((post, comments))
+                comment_replies = []
+                for reply in replies:
+                    if reply[1] == comment[0]:
+                        comment_replies.append(reply)
+                post_comments.append((comment, comment_replies))
     return render_template("sports.html", vibes=newdata, category=category)
 
 
@@ -270,16 +293,20 @@ def profile():
 
         user_posts = connect_db.get_user_posts(user)
         
-        all_comments = connect_db.get_all_comments()
+        comments = connect_db.get_all_comments()
+        replies = connect_db.get_all_replies()
         
         newdata = []
         #match up posts with comments
         for post in user_posts:
-            comments = []
-            for comment in all_comments:
+            post_comments = []
+            for comment in comments:
                 if comment[1] == post[0]:
-                    comments.append(comment)
-            newdata.append((post, comments))
+                    comment_replies = []
+                    for reply in replies:
+                        if reply[1] == comment[0]:
+                            comment_replies.append(reply)
+                    post_comments.append((comment, comment_replies))
         return render_template("profile.html", user = user, data = newdata)
     return render_template("profile.html")
 
@@ -435,4 +462,15 @@ def add_comment():
         time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         likes = 0
         connect_db.add_comment(user,post_id,comment, likes)
+        return redirect(request.referrer)
+    
+@app.route("/add_reply", methods=["POST"])
+def add_reply():
+    if "user" in session and request.method == "POST":
+        user = session["user"]
+        comment_id = request.form["comment_id"]
+        reply = request.form["reply"]
+        time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        likes = 0
+        connect_db.add_reply(user,comment_id,reply,time, likes)
         return redirect(request.referrer)
