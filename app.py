@@ -295,7 +295,7 @@ def profile():
         
         comments = connect_db.get_all_comments()
         replies = connect_db.get_all_replies()
-        
+        print(user_posts)
         newdata = []
         #match up posts with comments
         for post in user_posts:
@@ -307,6 +307,7 @@ def profile():
                         if reply[1] == comment[0]:
                             comment_replies.append(reply)
                     post_comments.append((comment, comment_replies))
+            newdata.append((post, post_comments))
         return render_template("profile.html", user = user, data = newdata)
     return render_template("profile.html")
 
