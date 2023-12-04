@@ -95,7 +95,7 @@ def user():
        for post in all_posts:
             comments = []
             for comment in all_comments:
-                if comment[1] == post[0]:
+                if comment[1] == post[5]:
                     comments.append(comment)
             newdata.append((post, comments))
             
@@ -332,17 +332,7 @@ def delete_post(post_id):
 def like_post():
     user = session["user"]
     post_id = request.json["post_id"]
-    print(f"post id: {post_id}")
     result = connect_db.get_user_likepost(user, post_id)
-    
-    # get total post likes
-    # homepage = connect_db.get_user_homepage(user)
-    # print(homepage)
-    
-    
-    result = connect_db.get_user_likepost(user, post_id)
-    print(result)   
-    
     if len(result) == 0:
         connect_db.add_like(user, post_id)
         connect_db.increment_likes(post_id)
@@ -350,6 +340,23 @@ def like_post():
     else:
         connect_db.remove_like(user, post_id)
         connect_db.decrement_likes(post_id)
+        return jsonify({"result": "unliked"})
+
+@app.route("/like_reply", methods=["POST"])
+def like_reply():
+    user = session["user"]
+    reply_id = request.json["reply_id"]
+    
+    result = connect_db.get_user_likereply(user, reply_id)
+    print(result)   
+    
+    if len(result) == 0:
+        connect_db.add_like_reply(user, reply_id)
+        connect_db.increment_likes_reply(reply_id)
+        return jsonify({"result": "liked"})
+    else:
+        connect_db.remove_like_reply(user, reply_id)
+        connect_db.decrement_likes_reply(reply_id)
         return jsonify({"result": "unliked"})
 
 @app.route("/like_comment", methods=["POST"]) 

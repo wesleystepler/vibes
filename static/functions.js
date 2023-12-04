@@ -40,6 +40,30 @@ function addLike(postID){
 
 }
 
+function addReplyLike(replyID){
+    console.log('replyID:', replyID)
+    $.ajax({
+        type: 'POST',
+        url: '/like_reply',
+        contentType: 'application/json',
+        data: JSON.stringify({reply_id: replyID}),
+        success: function(response) {
+            if (response.result == 'liked') {
+                var likeCount = parseInt($('#reply-like-count-' + replyID).text());
+                $('#reply-like-count-' + replyID).text(likeCount+1);
+                
+            } else if (response.result == 'unliked') {
+                var likeCount = parseInt($('#reply-like-count-' + replyID).text());
+                $('#reply-like-count-' + replyID).text(likeCount-1);
+            }
+        },
+        error: function(error) {
+          console.log('Error:', error);
+        }
+    });
+
+}
+
 function addCommentLike(commentID){
     console.log('commentID:', commentID)
     $.ajax({

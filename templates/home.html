@@ -33,20 +33,19 @@
             <p><span class="highlight">{{i[0][3]}}</span></p>
             <span class = "like-button" id="like-button-{{i[5]}}" onclick="addLike('{{i[0][5]}}')">&#10084;</span>
             <span id="like-count-{{i[0][5]}}" class="like-count">{{i[0][2]}}</span> Likes
-            <a href="#" class="comment-icon" onclick="toggleCommentForm('{{i[0][0]}}')"><i class="bi bi-chat-dots"></i></a>
+            <a href="#" class="comment-icon" onclick="toggleCommentForm('{{i[0][5]}}')"><i class="bi bi-chat-dots"></i></a>
             </div>
         </div>
 
-        <div id= "comment-form-{{ i[0][0] }}", class="row", style="display:none">
+        <div id= "comment-form-{{ i[0][5] }}", class="row", style="display:none">
           <div class="col">
               <form class="comment-form" action="/add_comment" method="post">
-                  <input type="hidden" name="post_id" value="{{ i[0][0] }}">
+                  <input type="hidden" name="post_id" value="{{ i[0][5] }}">
                   <textarea name="comment" rows="3" cols="50"></textarea>
                   <input type="submit" value="Add Comment">
               </form>
           </div>
         </div>
-      </div>
       <div class="row">
         <div class="col">
           <h5>Comments:</h5>
@@ -60,6 +59,8 @@
           {% endfor %}
         </div>
       </div>
+    </div>
+
         
     {% endfor %}
     </table>
