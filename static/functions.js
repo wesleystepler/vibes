@@ -110,9 +110,12 @@ function sendRequestTo(username) {
         data: JSON.stringify({user_name2: username}),
         success: function(response) {
             if (response.result == 'success') {
-                console.log("Success!");  
+
+                $(`#add-${username}`).hide();
+                $(`#request-sent-${username}`).show();
                 var request = document.getElementById(username);
                 request.remove();
+                console.log("Success!");
             }
         },
 
