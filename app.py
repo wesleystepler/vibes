@@ -380,11 +380,11 @@ def like_reply():
     
     if len(result) == 0:
         connect_db.add_like_reply(user, reply_id)
-        connect_db.increment_likes_reply(reply_id)
+        # connect_db.increment_likes_reply(reply_id)
         return jsonify({"result": "liked"})
     else:
         connect_db.remove_like_reply(user, reply_id)
-        connect_db.decrement_likes_reply(reply_id)
+        # connect_db.decrement_likes_reply(reply_id)
         return jsonify({"result": "unliked"})
 
 @app.route("/like_comment", methods=["POST"]) 
