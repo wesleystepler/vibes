@@ -111,6 +111,8 @@ function sendRequestTo(username) {
         success: function(response) {
             if (response.result == 'success') {
                 console.log("Success!");  
+                var request = document.getElementById(username);
+                request.remove();
             }
         },
 
@@ -130,7 +132,11 @@ function acceptRequest(username) {
         data: JSON.stringify({requester: username}),
         success: function(response) {
             if (response.result == 'success') {
-                console.log("Success!");  
+                // delete the request
+                console.log("Success!");
+                var request = document.getElementById(username);
+                request.remove();
+
             }
         },
 
@@ -152,6 +158,8 @@ function rejectRequest(username) {
         success: function(response) {
             if (response.result == 'success') {
                 console.log("Success!");  
+                var request = document.getElementById(username);
+                request.remove();
             }
         },
 

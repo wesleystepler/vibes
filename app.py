@@ -100,7 +100,7 @@ def user():
                         if reply[1] == comment[0]:
                             comment_replies.append(reply)
                     post_comments.append((comment, comment_replies))
-            
+            newdata.append((post, post_comments))
         return render_template("home.html", user = user, data = newdata)
     else:
         return redirect(url_for("login"))
