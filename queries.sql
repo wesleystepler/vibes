@@ -197,3 +197,50 @@ WHERE Post.post_id = Liked_Post_ID;
 $$
 DELIMITER ;
 
+DELIMITER $$
+CREATE TRIGGER postLikeIncrease
+BEFORE Insert ON Likes_Post
+FOR EACH ROW
+    BEGIN
+        UPDATE Post
+        SET likes = likes + 1
+        WHERE post_id = new.post_id;
+    END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER postLikeDecrease
+BEFORE DELETE ON Likes_Post
+FOR EACH ROW
+    BEGIN
+        UPDATE Post
+        SET likes = likes - 1
+        WHERE post_id = old.post_id;
+    END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER commentLikeIncrease
+BEFORE Insert ON Likes_Comment
+FOR EACH ROW
+    BEGIN
+        UPDATE Comment
+        SET likes = likes + 1
+        WHERE comment_id = new.comment_id;
+    END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER commentLikeDecrease
+BEFORE DELETE ON Likes_Comment
+FOR EACH ROW
+    BEGIN
+        UPDATE Comment
+        SET likes = likes - 1
+        WHERE comment_id = old.comment_id;
+    END
+$$
+DELIMITER ;
