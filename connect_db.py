@@ -24,6 +24,7 @@ def add_new_user(user, pwd, first_name, last_name, email):
     with connection.cursor() as cursor:
         cursor.execute(query, (user, pwd, first_name, last_name, email))
         connection.commit()
+        connection.close()
 
 def get_all_users():
     query = """
@@ -32,6 +33,7 @@ def get_all_users():
     with connection.cursor() as cursor:
         cursor.execute(query)
         result = cursor.fetchall()
+        connection.close()
         return result
     
 
@@ -39,6 +41,7 @@ def describe_table():
     query = """DESC Users"""
     with connection.cursor(buffered=True) as cursor:
         cursor.execute(query)
+        connection.close()
         return cursor.fetchall()
 
 def get_user(user):
@@ -48,6 +51,7 @@ def get_user(user):
     with connection.cursor() as cursor:
         cursor.execute(query, (user,))
         result = cursor.fetchall()
+        connection.close()
         return result
     
 def get_password(user):
@@ -57,6 +61,7 @@ def get_password(user):
     with connection.cursor() as cursor:
         cursor.execute(query, (user,))
         result = cursor.fetchall()
+        connection.close()
         return result
 # def update_password():
 #     query = """
@@ -76,6 +81,7 @@ def create_new_post(category, time_posted, likes, post_text, user_name):
     with connection.cursor() as cursor:
         cursor.execute(query, (category, time_posted, likes, post_text, user_name))
         connection.commit()
+        connection.close()
 
 def add_like(user, post_id):
     query = """
@@ -85,6 +91,7 @@ def add_like(user, post_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (user, post_id))
         connection.commit()
+        connection.close()
 
 def send_request(user1, user2):
     query = """
@@ -95,6 +102,7 @@ def send_request(user1, user2):
     with connection.cursor() as cursor:
         cursor.execute(query, (user1, user2))
         connection.commit()
+        connection.close()
 
 
 def add_friends(user1, user2):
@@ -106,10 +114,12 @@ def add_friends(user1, user2):
     with connection.cursor() as cursor:
         cursor.execute(query, (user1, user2))
         connection.commit()
+        connection.close()
 
     with connection.cursor() as cursor:
         cursor.execute(query, (user2, user1))
         connection.commit()
+        connection.close()
     
 ### ~~~~~~~~~~~~~~~~~~~~~~~~ REMOVE FROM TABLE QUERIES ~~~~~~~~~~~~~~~~~~~~~~~~ ###
 
@@ -121,6 +131,7 @@ def remove_like(user, post_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (user, post_id))
         connection.commit()
+        connection.close()
 
 
 def delete_request(user1, user2):
@@ -132,6 +143,7 @@ def delete_request(user1, user2):
     with connection.cursor() as cursor:
         cursor.execute(query, (user1, user2))
         connection.commit()
+        connection.close()
 
 ### ~~~~~~~~~~~~~~~~~~~~~~~~ DATA FILTERING Functions ~~~~~~~~~~~~~~~~~~~~~~~~ ###
 # EDIT THIS TO USE A QUERY THAT GETS POSTS FROM THE USERS FRIENDS
@@ -145,6 +157,7 @@ def get_user_homepage(user):
     with connection.cursor() as cursor:
         cursor.execute(query, (user,))
         result = cursor.fetchall()
+        connection.close()
         return result
     
 
@@ -156,6 +169,7 @@ def get_all_vibes():
     with connection.cursor() as cursor:
         cursor.execute(query)
         result = cursor.fetchall()
+        connection.close()
         return result
     
 
@@ -166,6 +180,7 @@ def get_filtered_vibes(category):
     with connection.cursor() as cursor:
         cursor.execute(query, (category,))
         result = cursor.fetchall()
+        connection.close()
         return result
     
 def get_user_posts(user):
@@ -173,6 +188,7 @@ def get_user_posts(user):
     with connection.cursor() as cursor:
         cursor.execute(query, (user,))
         result = cursor.fetchall()
+        connection.close()
         return result
     
 def get_user_friends(user):
@@ -180,6 +196,7 @@ def get_user_friends(user):
     with connection.cursor() as cursor:
         cursor.execute(query, (user,))
         result = cursor.fetchall()
+        connection.close()
         return result
     
 def get_all_users():
@@ -187,6 +204,7 @@ def get_all_users():
     with connection.cursor() as cursor:
         cursor.execute(query)
         result = cursor.fetchall()
+        connection.close()
         return result
     
 def get_user_requests(user):
@@ -197,6 +215,7 @@ def get_user_requests(user):
     with connection.cursor() as cursor:
         cursor.execute(query, (user,))
         result = cursor.fetchall()
+        connection.close()
         return result
     
 def get_sent_requests(user):
@@ -208,6 +227,7 @@ def get_sent_requests(user):
     with connection.cursor() as cursor:
         cursor.execute(query, (user,))
         result = cursor.fetchall()
+        connection.close()
         return result
 
 
@@ -216,6 +236,7 @@ def get_user_likepost(user, post_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (user, post_id))
         result = cursor.fetchall()
+        connection.close()
         return result
 
 def get_user_likecomment(user, comment_id):
@@ -226,6 +247,7 @@ def get_user_likecomment(user, comment_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (user, comment_id))
         result = cursor.fetchall()
+        connection.close()
         return result
 
 def add_like_comment(user, comment_id):
@@ -236,6 +258,7 @@ def add_like_comment(user, comment_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (user, comment_id))
         connection.commit()
+        connection.close()
 
 def remove_like_comment(user, comment_id):
     query = """
@@ -245,6 +268,7 @@ def remove_like_comment(user, comment_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (user, comment_id))
         connection.commit()
+        connection.close()
 
 def increment_likes_comment(comment_id):
     query = """
@@ -256,6 +280,7 @@ def increment_likes_comment(comment_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (comment_id,))
         connection.commit()
+        connection.close()
 
 def decrement_likes_comment(comment_id):
     query = """
@@ -266,6 +291,7 @@ def decrement_likes_comment(comment_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (comment_id,))
         connection.commit()
+        connection.close()
         
 
 def decrement_likes(post_id):
@@ -277,6 +303,7 @@ def decrement_likes(post_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (post_id,))
         connection.commit()
+        connection.close()
 
 def increment_likes(post_id):
 
@@ -289,6 +316,7 @@ def increment_likes(post_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (post_id,))
         connection.commit()
+        connection.close()
 
 def get_user_likereply(user, reply_id):
     query = """
@@ -298,6 +326,7 @@ def get_user_likereply(user, reply_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (user, reply_id))
         result = cursor.fetchall()
+        connection.close()
         return result
 
 def add_like_reply(user, reply_id):
@@ -308,6 +337,7 @@ def add_like_reply(user, reply_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (user, reply_id))
         connection.commit()
+        connection.close()
 
 def remove_like_reply(user, reply_id):
     query = """
@@ -317,6 +347,7 @@ def remove_like_reply(user, reply_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (user, reply_id))
         connection.commit()
+        connection.close()
 
 def increment_likes_reply(reply_id):
     query = """
@@ -327,6 +358,7 @@ def increment_likes_reply(reply_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (reply_id,))
         connection.commit()
+        connection.close()
 
 def decrement_likes_reply(reply_id):
     query = """
@@ -337,6 +369,7 @@ def decrement_likes_reply(reply_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (reply_id,))
         connection.commit()
+        connection.close()
     
 
 def delete_post(post_id):
@@ -347,6 +380,7 @@ def delete_post(post_id):
     with connection.cursor() as cursor:
         cursor.execute(query, (post_id,))
         connection.commit()
+        connection.close()
         
     
 def get_all_comments():
@@ -357,6 +391,7 @@ def get_all_comments():
     with connection.cursor() as cursor:
         cursor.execute(query)
         result = cursor.fetchall()
+        connection.close()
         return result
 
 def add_comment(user_name, post_id, comment_text, comment_likes):
@@ -367,6 +402,7 @@ def add_comment(user_name, post_id, comment_text, comment_likes):
     with connection.cursor() as cursor:
         cursor.execute(query, (user_name, post_id, comment_text, comment_likes))
         connection.commit()
+        connection.close()
         
 def add_reply(user_name, comment_id, reply_text,time_stamp, likes):
     query = """
@@ -376,6 +412,7 @@ def add_reply(user_name, comment_id, reply_text,time_stamp, likes):
     with connection.cursor() as cursor:
         cursor.execute(query, (user_name, comment_id, reply_text, time_stamp, likes))
         connection.commit()
+        connection.close()
 
 def get_all_replies():
     query = """
@@ -385,4 +422,5 @@ def get_all_replies():
     with connection.cursor() as cursor:
         cursor.execute(query)
         result = cursor.fetchall()
+        connection.close()
         return result
