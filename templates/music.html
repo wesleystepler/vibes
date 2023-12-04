@@ -42,17 +42,38 @@
               </form>
           </div>
         </div>
-      <div class="row">
-        <div class="col">
-          {% for comment in i[1] %}
-          <div class="comment-container" style="background-color: #f9f9f9; padding: 10px; margin-bottom: 10px;">
-            <p>@{{ comment[2] }} Replied</p>
-            <p>{{ comment[3] }}</p>
-            <span class="like-button" id="like-button-{{ comment[0] }}" onclick="addCommentLike('{{ comment[0] }}')">&#10084;</span>
-            <span id="comment-like-count-{{ comment[0] }}" class="comment-like-count-">{{ comment[4] }}</span> Likes
-         </div>
-          {% endfor %}
-        </div>
+        <div class="row">
+          <div class="col">
+              {% for comment in i[1] %}
+                  <div class="comment-container" style="background-color: #f9f9f9; padding: 10px; margin-bottom: 10px;">
+                      <p>@{{ comment[0][2] }} Commented</p>
+                      <p>{{ comment[0][3] }}</p>
+                      <span class="like-button" id="like-button-{{ comment[0][0] }}" onclick="addCommentLike('{{ comment[0][0] }}')">&#10084;</span>
+                      <span id="comment-like-count-{{ comment[0][0] }}" class="comment-like-count-">{{ comment[0][4] }}</span> Likes
+                      <a href="#" class="comment-icon" onclick="toggleReplyForm('{{comment[0][0]}}')"><i class="bi bi-chat-dots"></i></a>
+
+                  </div>
+
+                  <div id= "reply-form-{{ comment[0][0] }}", class="row", style="display:none">
+                    <div class="col">
+                        <form class="comment-form" action="/add_reply" method="post">
+                            <input type="hidden" name="comment_id" value="{{ comment[0][0] }}">
+                            <textarea name="reply" rows="3" cols="50"></textarea>
+                            <input type="submit" value="Add Reply">
+                        </form>
+                    </div>
+                  </div>
+                  
+                  {% for reply in comment[1] %}
+                      <div class="comment-container" style="background-color: #fcfcfc; padding: 10px; margin-bottom: 10px; margin-left: 30px;">
+                          <p>@{{ reply[2] }} Replied</p>
+                          <p>{{ reply[3] }}</p>
+                          <span class="like-button" id="like-button-{{ reply[0] }}" onclick="addReplyLike('{{ reply[0] }}')">&#10084;</span>
+                          <span id="reply-like-count-{{ reply[0] }}" class="reply-like-count-">{{ reply[5] }}</span> Likes
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+          </div>
       </div>
     </div>
 
